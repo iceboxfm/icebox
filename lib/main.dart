@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/screens/freezer_items_screen.dart';
+import 'package:icebox/screens/freezer_screen.dart';
 import 'package:icebox/screens/freezers_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,7 @@ class IceboxApp extends StatelessWidget {
         routes: {
           FreezerItemsScreen.routeName: (ctx) => const FreezerItemsScreen(),
           FreezersScreen.routeName: (ctx) => const FreezersScreen(),
+          FreezerScreen.routeName: (ctx) => const FreezerScreen(),
         },
         onUnknownRoute: (settings) {
           return MaterialPageRoute(
