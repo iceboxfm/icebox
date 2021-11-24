@@ -3,6 +3,7 @@ import 'package:icebox/models/freezer.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/wigets/delete_item_button.dart';
 import 'package:icebox/wigets/save_item_button.dart';
+import 'package:icebox/wigets/shelf_editor_field.dart';
 import 'package:provider/provider.dart';
 
 /// The screen for creating/editing freezer information
@@ -111,8 +112,12 @@ class _FreezerScreenState extends State<FreezerScreen> {
                 ],
                 onChanged: (_) => setState(() => _canSave = true),
                 onSaved: (value) => _freezer = _freezer.copyWith(type: value),
-              )
-              // FIXME: shelves
+              ),
+              ShelfEditorField(
+                initialValue: _freezer.shelves,
+                onChanged: (_) => setState(() => _canSave = true),
+                onSaved: (value) => _freezer = _freezer.copyWith(shelves: value),
+              ),
             ],
           ),
         ),
