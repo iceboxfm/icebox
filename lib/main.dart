@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
+import 'package:icebox/screens/freezer_item_screen.dart';
 import 'package:icebox/screens/freezer_items_screen.dart';
 import 'package:icebox/screens/freezer_screen.dart';
 import 'package:icebox/screens/freezers_screen.dart';
@@ -15,6 +17,7 @@ class IceboxApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Freezers()),
+        ChangeNotifierProvider(create: (_) => FreezerItems()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -23,6 +26,7 @@ class IceboxApp extends StatelessWidget {
           FreezerItemsScreen.routeName: (ctx) => const FreezerItemsScreen(),
           FreezersScreen.routeName: (ctx) => const FreezersScreen(),
           FreezerScreen.routeName: (ctx) => const FreezerScreen(),
+          FreezerItemScreen.routeName: (ctx) => const FreezerItemScreen(),
         },
         onUnknownRoute: (settings) {
           return MaterialPageRoute(

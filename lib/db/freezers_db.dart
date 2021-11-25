@@ -1,17 +1,25 @@
 import 'dart:convert';
+import 'dart:developer' as dev;
 
 import 'package:icebox/db/database_accessor.dart';
 import 'package:icebox/models/freezer.dart';
+import 'package:sqflite/sqflite.dart';
 
 class FreezersDb {
+  static const String _tag = 'icebox.db.freezers_db';
   static const String _table = 'freezers';
-  static const String tableDefinition = '''CREATE TABLE freezers (
+  static const String _tableDefinition = '''CREATE TABLE freezers (
       id INTEGER PRIMARY KEY,
       description VARCHAR(50) NOT NULL,
       type VARCHAR(10) NOT NULL,
       shelves TEXT NOT NULL
     )
   ''';
+
+  static Future<void> init(final Database db, final int version) async {
+    dev.log('Creating $_table (v$version)...', name: _tag);
+    return db.execute(_tableDefinition);
+  }
 
   static Future<List<Freezer>> retrieve() async {
     final res = await (await DatabaseAccessor.db.database).query(

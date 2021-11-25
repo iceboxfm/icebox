@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icebox/models/freezer.dart';
+import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/wigets/delete_item_button.dart';
 import 'package:icebox/wigets/save_item_button.dart';
@@ -116,7 +117,8 @@ class _FreezerScreenState extends State<FreezerScreen> {
               ShelfEditorField(
                 initialValue: _freezer.shelves,
                 onChanged: (_) => setState(() => _canSave = true),
-                onSaved: (value) => _freezer = _freezer.copyWith(shelves: value),
+                onSaved: (value) =>
+                    _freezer = _freezer.copyWith(shelves: value),
               ),
             ],
           ),
@@ -131,9 +133,9 @@ class _FreezerScreenState extends State<FreezerScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            if (_editing)
+            if (_editing &&
+                context.read<FreezerItems>().count(_freezer.id) == 0)
               DeleteItemButton(
-                // FIXME: should not allow delete if there are items!
                 onDelete: () => freezers
                     .delete(_freezer.id!)
                     .then((_) => Navigator.of(context).pop()),

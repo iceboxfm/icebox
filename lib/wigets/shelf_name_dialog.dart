@@ -23,6 +23,7 @@ class _ShelfNameDialogState extends State<ShelfNameDialog> {
     return AlertDialog(
       title: const Text('Shelf Name'),
       content: TextField(
+        autofocus: true,
         controller: _controller,
         decoration: const InputDecoration(hintText: 'What do you want to call the shelf?'),
       ),

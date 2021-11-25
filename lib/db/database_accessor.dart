@@ -1,5 +1,6 @@
 import 'dart:developer' as dev;
 
+import 'package:icebox/db/freezer_items_db.dart';
 import 'package:icebox/db/freezers_db.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -26,8 +27,9 @@ class DatabaseAccessor {
       version: 1,
       onOpen: (db) {},
       onCreate: (Database db, int version) async {
-        dev.log('Creating tables...', name: _tag);
-        await db.execute(FreezersDb.tableDefinition);
+        dev.log('Creating tables (v$version)...', name: _tag);
+        await FreezersDb.init(db, version);
+        await FreezerItemsDb.init(db, version);
       },
     );
   }

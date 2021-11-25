@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:icebox/models/freezer.dart';
+import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/screens/freezer_screen.dart';
 import 'package:icebox/wigets/dismissable_background.dart';
+import 'package:provider/provider.dart';
 
 class FreezerList extends StatelessWidget {
   final Freezers _freezers;
@@ -29,10 +31,10 @@ class FreezerList extends StatelessWidget {
                 '${freezer.shelves.isEmpty ? 'No' : freezer.shelves.length} shelves',
               ),
               contentPadding: const EdgeInsets.only(left: 2, right: 2),
-              onTap: () => Navigator.of(context).pushNamed(FreezerScreen.routeName, arguments: freezer),
+              onTap: () => Navigator.of(context)
+                  .pushNamed(FreezerScreen.routeName, arguments: freezer),
             ),
           ),
-
           confirmDismiss: (direction) {
             return showDialog(
               context: context,
@@ -55,15 +57,18 @@ class FreezerList extends StatelessWidget {
             );
           },
           onDismissed: (direction) {
-            // FIXME: should only be deletable if there are no items in it
-            _freezers.delete(freezer.id!).then((_) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('"${freezer.description}" was deleted.'),
-                  duration: const Duration(seconds: 3),
-                ),
-              );
-            });
+            if (context.read<FreezerItems>().count(freezer.id!) == 0) {
+              _freezers.delete(freezer.id!).then((_) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('"${freezer.description}" was deleted.'),
+                    duration: const Duration(seconds: 3),
+                  ),
+                );
+              });
+            } else {
+              // FIXME:: warn that cant delete with items
+            }
           },
         );
       },

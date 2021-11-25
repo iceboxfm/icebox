@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icebox/screens/freezer_item_screen.dart';
 import 'package:icebox/wigets/app_drawer.dart';
 
 class FreezerItemsScreen extends StatelessWidget {
@@ -12,6 +13,7 @@ class FreezerItemsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Freezer Items"),
         // FIXME: implement
+        // FIXME: also add ability to limit view to one freezer
         // actions: [
         //   IconButton(
         //     icon: const Icon(Icons.category),
@@ -35,10 +37,10 @@ class FreezerItemsScreen extends StatelessWidget {
       ),
       drawer: AppDrawer(),
       body: const Center(child: Text('Freezer items listed here.')),
-/*      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => Navigator.of(context).pushNamed(ItemScreen.routeName),
-      ),*/
+        onPressed: () => Navigator.of(context).pushNamed(FreezerItemScreen.routeName),
+      ),
     );
   }
 }
