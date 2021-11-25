@@ -32,9 +32,30 @@ class FreezerItemsDb {
     return res.isNotEmpty ? res.map((r) => _fromMap(r)).toList() : [];
   }
 
-  // FIXME: create
-  // FIXME: update
-  // FIXME: delete
+  static Future<FreezerItem> create(final FreezerItem freezerItem) async {
+    final recordId = await (await DatabaseAccessor.db.database).insert(
+      _table,
+      _toMap(freezerItem),
+    );
+    return freezerItem.copyWith(id: recordId);
+  }
+
+  static Future<void> update(final FreezerItem freezerItem) async {
+    await (await DatabaseAccessor.db.database).update(
+      _table,
+      _toMap(freezerItem),
+      where: 'id = ?',
+      whereArgs: [freezerItem.id],
+    );
+  }
+
+  static Future<void> delete(final int freezerItemId) async {
+    await (await DatabaseAccessor.db.database).delete(
+      _table,
+      where: 'id = ?',
+      whereArgs: [freezerItemId],
+    );
+  }
 
   static Map<String, dynamic> _toMap(final FreezerItem item) {
     return {

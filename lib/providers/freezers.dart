@@ -33,6 +33,10 @@ class Freezers with ChangeNotifier {
   int get count {
     return _freezers.length;
   }
+  
+  Freezer retrieve(final int freezerId){
+    return _freezers.where((f) => f.id == freezerId).first;
+  }
 
   Future<void> save(final Freezer freezer) async {
     if (freezer.id == null) {

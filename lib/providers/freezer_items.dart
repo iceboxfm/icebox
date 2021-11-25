@@ -28,11 +28,31 @@ class FreezerItems with ChangeNotifier {
   }
 
   Future<void> save(final FreezerItem freezerItem) async {
-    // FIXME: impl
+    if (freezerItem.id == null) {
+      FreezerItemsDb.create(freezerItem).then((fi) {
+        _freezerItems.add(fi);
+
+        dev.log('Created: $fi', name: _tag);
+        notifyListeners();
+      });
+    } else {
+      FreezerItemsDb.update(freezerItem).then((_) {
+        final existingIdx = _freezerItems.indexWhere((f) => freezerItem.id == f.id);
+        _freezerItems[existingIdx] = freezerItem;
+
+        dev.log('Updated: $freezerItem', name: _tag);
+        notifyListeners();
+      });
+    }
   }
 
   Future<void> delete(final int freezerItemId) async {
-    // FIXME: impl
+    FreezerItemsDb.delete(freezerItemId).then((_){
+      _freezerItems.removeWhere((f) => f.id == freezerItemId);
+
+      dev.log('Deleted: $freezerItemId', name: _tag);
+      notifyListeners();
+    });
   }
 
   /// List freezer items for all freezers (or specified freezer)

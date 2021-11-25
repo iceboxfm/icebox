@@ -46,4 +46,7 @@ class ItemCategory {
 
   @override
   int get hashCode => hashValues(label, imagePath);
+
+  @override
+  String toString() => 'ItemCategory(label:$label, imagePath:$imagePath)';
 }
