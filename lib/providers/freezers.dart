@@ -10,14 +10,18 @@ class Freezers with ChangeNotifier {
   static const String _tag = 'icebox.providers.freezers';
 
   final List<Freezer> _freezers = [];
+  bool _loaded = false;
 
-  Freezers() {
-    FreezersDb.retrieve().then((fs) {
+  Future<void> load() async {
+    if( !_loaded) {
+      final items = await FreezersDb.retrieve();
+
       _freezers.clear();
-      _freezers.addAll(fs);
-      dev.log('Loaded ${fs.length} freezers from database.', name: _tag);
-      notifyListeners();
-    });
+      _freezers.addAll(items);
+
+      dev.log('Loaded ${items.length} freezers from database.', name: _tag);
+      _loaded = true;
+    }
   }
 
   List<Freezer> get freezers {
@@ -33,8 +37,8 @@ class Freezers with ChangeNotifier {
   int get count {
     return _freezers.length;
   }
-  
-  Freezer retrieve(final int freezerId){
+
+  Freezer retrieve(final int freezerId) {
     return _freezers.where((f) => f.id == freezerId).first;
   }
 
@@ -58,7 +62,7 @@ class Freezers with ChangeNotifier {
   }
 
   Future<void> delete(final int freezerId) async {
-    FreezersDb.delete(freezerId).then((_){
+    FreezersDb.delete(freezerId).then((_) {
       _freezers.removeWhere((f) => f.id == freezerId);
 
       dev.log('Deleted: $freezerId', name: _tag);

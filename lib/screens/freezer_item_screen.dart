@@ -6,9 +6,9 @@ import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/models/item_categories.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
-import 'package:icebox/wigets/delete_item_button.dart';
-import 'package:icebox/wigets/good_for_selector.dart';
-import 'package:icebox/wigets/save_item_button.dart';
+import 'package:icebox/widgets/delete_item_button.dart';
+import 'package:icebox/widgets/good_for_selector.dart';
+import 'package:icebox/widgets/save_item_button.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 

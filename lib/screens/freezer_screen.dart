@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:icebox/models/freezer.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
-import 'package:icebox/wigets/delete_item_button.dart';
-import 'package:icebox/wigets/save_item_button.dart';
-import 'package:icebox/wigets/shelf_editor_field.dart';
+import 'package:icebox/widgets/delete_item_button.dart';
+import 'package:icebox/widgets/save_item_button.dart';
+import 'package:icebox/widgets/shelf_editor_field.dart';
 import 'package:provider/provider.dart';
 
 /// The screen for creating/editing freezer information

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/screens/freezer_screen.dart';
-import 'package:icebox/wigets/app_drawer.dart';
-import 'package:icebox/wigets/freezer_list.dart';
+import 'package:icebox/widgets/app_drawer.dart';
+import 'package:icebox/widgets/freezer_list.dart';
 import 'package:provider/provider.dart';
 
 class FreezersScreen extends StatelessWidget {

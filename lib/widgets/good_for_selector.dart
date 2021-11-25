@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:icebox/wigets/good_for_dialog.dart';
+import 'package:icebox/widgets/good_for_dialog.dart';
 
 class GoodForSelector extends StatefulWidget {
   final int? initialValue;

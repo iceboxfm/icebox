@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:icebox/wigets/shelf_name_dialog.dart';
+import 'package:icebox/widgets/shelf_name_dialog.dart';
 
 // FIXME: ensure that shelf name is unique for this freezer
 

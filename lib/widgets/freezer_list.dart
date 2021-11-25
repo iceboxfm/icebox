@@ -3,7 +3,7 @@ import 'package:icebox/models/freezer.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/screens/freezer_screen.dart';
-import 'package:icebox/wigets/dismissable_background.dart';
+import 'package:icebox/widgets/dismissable_background.dart';
 import 'package:provider/provider.dart';
 
 class FreezerList extends StatelessWidget {
@@ -12,7 +12,7 @@ class FreezerList extends StatelessWidget {
   const FreezerList(this._freezers);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return ListView.builder(
       itemCount: _freezers.count,
       itemBuilder: (ctx, index) {

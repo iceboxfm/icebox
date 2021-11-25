@@ -8,20 +8,28 @@ class FreezerItems with ChangeNotifier {
   static const _tag = 'icebox.providers.freezer_items';
 
   final List<FreezerItem> _freezerItems = [];
+  bool _loaded = false;
 
   // FIXME: sorting
 
-  FreezerItems() {
-    FreezerItemsDb.retrieve().then((fi) {
+  Future<void> load() async {
+    if (!_loaded) {
+      final items = await FreezerItemsDb.retrieve();
+
       _freezerItems.clear();
-      _freezerItems.addAll(fi);
-      dev.log('Loaded ${fi.length} freezer items from database.', name: _tag);
+      _freezerItems.addAll(items);
 
       // FIXME: sort
 
-      notifyListeners();
-    });
+      dev.log('Loaded ${items.length} freezer items from database.',
+          name: _tag);
+      _loaded = true;
+    }
   }
+
+  bool get isNotEmpty => _freezerItems.isNotEmpty;
+
+  operator [](int i) => _freezerItems[i];
 
   int count([final int? freezerId]) {
     return list(freezerId).length;
@@ -37,7 +45,8 @@ class FreezerItems with ChangeNotifier {
       });
     } else {
       FreezerItemsDb.update(freezerItem).then((_) {
-        final existingIdx = _freezerItems.indexWhere((f) => freezerItem.id == f.id);
+        final existingIdx =
+            _freezerItems.indexWhere((f) => freezerItem.id == f.id);
         _freezerItems[existingIdx] = freezerItem;
 
         dev.log('Updated: $freezerItem', name: _tag);
@@ -47,7 +56,7 @@ class FreezerItems with ChangeNotifier {
   }
 
   Future<void> delete(final int freezerItemId) async {
-    FreezerItemsDb.delete(freezerItemId).then((_){
+    FreezerItemsDb.delete(freezerItemId).then((_) {
       _freezerItems.removeWhere((f) => f.id == freezerItemId);
 
       dev.log('Deleted: $freezerItemId', name: _tag);
