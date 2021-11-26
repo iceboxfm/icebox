@@ -1,4 +1,5 @@
 import 'package:icebox/models/item_categories.dart';
+import 'package:icebox/models/sort_by.dart';
 
 class FreezerItem {
   final int? id;
@@ -55,4 +56,28 @@ class FreezerItem {
         location: location ?? this.location,
         freezerId: freezerId ?? this.freezerId,
       );
+
+  static List<FreezerItem> sort(
+    final List<FreezerItem> items,
+    final SortBy by,
+  ) {
+    var workingItems = [...items];
+
+    workingItems.sort((a, b) {
+      switch (by.field) {
+        case SortByField.timeRemaining:
+          return a.timeRemaining.compareTo(b.timeRemaining);
+        case SortByField.description:
+          return a.description.compareTo(b.description);
+        case SortByField.frozenOn:
+          return a.frozenOn.compareTo(b.frozenOn);
+        case SortByField.category:
+          return a.category.compareTo(b.category);
+        default:
+          return 0;
+      }
+    });
+
+    return by.reversed ? workingItems.reversed.toList() : workingItems;
+  }
 }

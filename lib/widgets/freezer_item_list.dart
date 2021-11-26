@@ -4,26 +4,41 @@ import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/screens/freezer_item_screen.dart';
 import 'package:icebox/widgets/dismissable_background.dart';
+import 'package:icebox/widgets/filter_input.dart';
 import 'package:icebox/widgets/quantity_dialog.dart';
 import 'package:icebox/widgets/time_remaining.dart';
 import 'package:provider/provider.dart';
 
 class FreezerItemList extends StatelessWidget {
-  final FreezerItems _freezerItems;
-
-  const FreezerItemList(this._freezerItems);
-
   @override
   Widget build(final BuildContext context) {
+    final freezerItems = context.watch<FreezerItems>();
     final freezers = context.read<Freezers>();
+
+    // FIXME: add in the selected category - when active
+    // FIXME: add in the selected freezer - when active
+    // FIXME: add some info when filter results in empty list
 
     return Column(
       children: [
+/*        LimitingBanner(
+          limiter: 'Utility Room Freezer',
+          onCleared: (){
+            // FIXME: implmenet
+          },
+        ),
+        LimitingBanner(
+          limiter: 'Leftovers Category',
+          onCleared: (){
+            // FIXME: implmenet
+          },
+        ),*/
+        FilterInput(freezerItems),
         Expanded(
           child: ListView.builder(
-            itemCount: _freezerItems.count(),
+            itemCount: freezerItems.count(),
             itemBuilder: (ctx, idx) {
-              final freezerItem = _freezerItems[idx] as FreezerItem;
+              final freezerItem = freezerItems[idx] as FreezerItem;
 
               return Dismissible(
                 key: ValueKey(freezerItem.id),
@@ -46,8 +61,8 @@ class FreezerItemList extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(freezerItem.description),
-                              _itemLocation(freezers, freezerItem),
                               Text(freezerItem.quantity),
+                              _itemLocation(freezers, freezerItem),
                             ],
                           ),
                         ),
@@ -63,7 +78,8 @@ class FreezerItemList extends StatelessWidget {
                         ),
                       ).then((value) {
                         if (value != null) {
-                          _freezerItems.save(freezerItem.copyWith(quantity: value));
+                          freezerItems
+                              .save(freezerItem.copyWith(quantity: value));
                         }
                       });
                     }),
@@ -87,7 +103,7 @@ class FreezerItemList extends StatelessWidget {
                   ),
                 ),
                 onDismissed: (direction) {
-                  _freezerItems.delete(freezerItem.id!).then((_) {
+                  freezerItems.delete(freezerItem.id!).then((_) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content:
@@ -119,3 +135,4 @@ class FreezerItemList extends StatelessWidget {
     );
   }
 }
+

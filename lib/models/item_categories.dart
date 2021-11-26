@@ -28,7 +28,7 @@ class ItemCategories {
 }
 
 // FIXME: needs to be comparable
-class ItemCategory {
+class ItemCategory implements Comparable<ItemCategory> {
   final String label;
   final String imagePath;
 
@@ -49,4 +49,9 @@ class ItemCategory {
 
   @override
   String toString() => 'ItemCategory(label:$label, imagePath:$imagePath)';
+
+  @override
+  int compareTo(final ItemCategory other) {
+    return label.compareTo(other.label);
+  }
 }
