@@ -3,6 +3,8 @@ import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/screens/freezer_item_screen.dart';
 import 'package:icebox/widgets/app_drawer.dart';
+import 'package:icebox/widgets/category_dialog.dart';
+import 'package:icebox/widgets/freezer_dialog.dart';
 import 'package:icebox/widgets/freezer_item_list.dart';
 import 'package:icebox/widgets/sort_dialog.dart';
 import 'package:provider/provider.dart';
@@ -26,19 +28,17 @@ class FreezerItemsScreen extends StatelessWidget {
              actions: [
                IconButton(
                  icon: const Icon(Icons.ac_unit_outlined),
-                 onPressed: (){
-                   // FIXME: implement
-                 },
+                 onPressed: () => showDialog(
+                   context: context,
+                   builder: (ctx) => FreezerDialog(),
+                 ).then((value) => freezerItems.limitFreezer(value)),
                ),
                IconButton(
                  icon: const Icon(Icons.category),
-                 onPressed: (){
-                   // FIXME: implement
-                 },
-                 // onPressed: () => showDialog(
-                 //   context: context,
-                 //   builder: (ctx) => CategoryDialog(),
-                 // ).then((value) => freezerItems.limitCategory(value)),
+                 onPressed: () => showDialog(
+                   context: context,
+                   builder: (ctx) => CategoryDialog(),
+                 ).then((value) => freezerItems.limitCategory(value)),
                ),
                IconButton(
                  icon: const Icon(Icons.sort),

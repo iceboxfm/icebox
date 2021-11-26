@@ -19,8 +19,8 @@ class ItemCategories {
     ItemCategory('Vegetables', 'assets/images/vegetable.png'),
   ];
 
-  static ItemCategory find(final String label) {
-    if (label.isEmpty) {
+  static ItemCategory find(final String? label) {
+    if (label == null || label.isEmpty) {
       return categories[0];
     }
     return categories.firstWhere((cat) => cat.label == label);

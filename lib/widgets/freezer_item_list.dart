@@ -5,6 +5,7 @@ import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/screens/freezer_item_screen.dart';
 import 'package:icebox/widgets/dismissable_background.dart';
 import 'package:icebox/widgets/filter_input.dart';
+import 'package:icebox/widgets/limiting_banner.dart';
 import 'package:icebox/widgets/quantity_dialog.dart';
 import 'package:icebox/widgets/time_remaining.dart';
 import 'package:provider/provider.dart';
@@ -15,24 +16,23 @@ class FreezerItemList extends StatelessWidget {
     final freezerItems = context.watch<FreezerItems>();
     final freezers = context.read<Freezers>();
 
-    // FIXME: add in the selected category - when active
     // FIXME: add in the selected freezer - when active
     // FIXME: add some info when filter results in empty list
 
     return Column(
       children: [
-/*        LimitingBanner(
-          limiter: 'Utility Room Freezer',
-          onCleared: (){
-            // FIXME: implmenet
-          },
-        ),
-        LimitingBanner(
-          limiter: 'Leftovers Category',
-          onCleared: (){
-            // FIXME: implmenet
-          },
-        ),*/
+        if( freezerItems.category != null)
+          LimitingBanner(
+            type: 'category',
+            limiter: freezerItems.category!.label,
+            onCleared: ()=> freezerItems.limitCategory(null),
+          ),
+        if( freezerItems.freezer != null)
+          LimitingBanner(
+            type: 'freezer',
+            limiter: freezers.retrieve(freezerItems.freezer!).description,
+            onCleared: ()=> freezerItems.limitFreezer(null),
+          ),
         FilterInput(freezerItems),
         Expanded(
           child: ListView.builder(

@@ -3,6 +3,7 @@ import 'dart:developer' as dev;
 import 'package:flutter/cupertino.dart';
 import 'package:icebox/db/freezer_items_db.dart';
 import 'package:icebox/models/freezer_item.dart';
+import 'package:icebox/models/item_categories.dart';
 import 'package:icebox/models/sort_by.dart';
 
 // FIXME: try to clean up the limiting/filtering code
@@ -15,6 +16,8 @@ class FreezerItems with ChangeNotifier {
   bool _loaded = false;
   String? _filterBy;
   SortBy _sortBy = _defaultSort;
+  ItemCategory? _category;
+  int? _freezerId;
 
   Future<void> load() async {
     if (!_loaded) {
@@ -52,6 +55,24 @@ class FreezerItems with ChangeNotifier {
     notifyListeners();
   }
 
+  ItemCategory? get category {
+    return _category;
+  }
+
+  void limitCategory(final ItemCategory? category) {
+    _category = category;
+    notifyListeners();
+  }
+
+  int? get freezer {
+    return _freezerId;
+  }
+
+  void limitFreezer(final int? freezerId) {
+    _freezerId = freezerId;
+    notifyListeners();
+  }
+
   bool get isNotEmpty => items.isNotEmpty;
 
   operator [](int i) => items[i];
@@ -63,7 +84,7 @@ class FreezerItems with ChangeNotifier {
   }
 
   List<FreezerItem> get items {
-    return _filter(_freezerItems);
+    return _filter(_limitByCategory(_limitByFreezer(_freezerItems)));
   }
 
   Future<void> save(final FreezerItem freezerItem) async {
@@ -109,5 +130,17 @@ class FreezerItems with ChangeNotifier {
               fi.category.label.toLowerCase().contains(filter),
         )
         .toList();
+  }
+
+  List<FreezerItem> _limitByCategory(final List<FreezerItem> items) {
+    return _category == null
+        ? items
+        : items.where((fi) => fi.category == _category).toList();
+  }
+
+  List<FreezerItem> _limitByFreezer(final List<FreezerItem> items) {
+    return _freezerId == null
+        ? items
+        : items.where((fi) => fi.freezerId == _freezerId).toList();
   }
 }

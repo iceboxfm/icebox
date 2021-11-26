@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LimitingBanner extends StatelessWidget {
+  final String type;
   final String limiter;
   final Function onCleared;
 
   const LimitingBanner({
+    required this.type,
     required this.limiter,
     required this.onCleared,
   });
@@ -19,7 +21,7 @@ class LimitingBanner extends StatelessWidget {
       padding: const EdgeInsets.all(6),
       child: Row(
         children: [
-          Text('Showing only "$limiter" items.'),
+          Text('Showing only "$limiter" $type items.'),
           const Spacer(),
           IconButton(
             icon: const Icon(Icons.clear),
