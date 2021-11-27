@@ -16,7 +16,6 @@ class FreezerItemList extends StatelessWidget {
     final freezerItems = context.watch<FreezerItems>();
     final freezers = context.read<Freezers>();
 
-    // FIXME: add in the selected freezer - when active
     // FIXME: add some info when filter results in empty list
 
     return Column(
