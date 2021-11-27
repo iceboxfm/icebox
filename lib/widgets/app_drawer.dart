@@ -62,10 +62,6 @@ class _AppDrawerState extends State<AppDrawer> {
                   .pushReplacementNamed(FreezersScreen.routeName);
             },
           ),
-          // const Divider(),
-          // FIXME: impl
-          // const AboutApp(),
-          // const Divider(),
           const Spacer(),
           Padding(
             padding: const EdgeInsets.all(8.0),

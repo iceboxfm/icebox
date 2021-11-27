@@ -1,6 +1,5 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-
-// TODO: unit test
 
 enum FreezerType {
   chest,
@@ -9,9 +8,8 @@ enum FreezerType {
 }
 
 extension FreezerTypeExt on FreezerType {
-
   String get name {
-    switch(this){
+    switch (this) {
       case FreezerType.upright:
         return 'upright';
       case FreezerType.chest:
@@ -22,16 +20,17 @@ extension FreezerTypeExt on FreezerType {
   }
 
   Image? get image {
-    // TOOD: move this out and just provide the path?
-    return Image(image: AssetImage('assets/images/${name}_freezer.png'), width: 40);
+    // TODO: move this out and just provide the path?
+    return Image(
+        image: AssetImage('assets/images/${name}_freezer.png'), width: 40);
   }
 
-  static FreezerType? forName(final String name){
-    if( name == 'upright'){
+  static FreezerType? forName(final String name) {
+    if (name == 'upright') {
       return FreezerType.upright;
-    } else if( name == 'chest'){
+    } else if (name == 'chest') {
       return FreezerType.chest;
-    } else if( name == 'drawer'){
+    } else if (name == 'drawer') {
       return FreezerType.drawer;
     } else {
       return null;
@@ -51,6 +50,24 @@ class Freezer {
     required this.shelves,
     required this.type,
   });
+
+  @override
+  bool operator ==(Object other) {
+    final Function eq = const ListEquality().equals;
+    return other is Freezer &&
+        other.id == id &&
+        other.description == description &&
+        eq(other.shelves, shelves) &&
+        other.type == type;
+  }
+
+  @override
+  int get hashCode => hashValues(
+        id,
+        description,
+        shelves,
+        type,
+      );
 
   Freezer copyWith({
     int? id,
