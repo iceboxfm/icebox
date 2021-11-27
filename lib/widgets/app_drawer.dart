@@ -30,8 +30,18 @@ class _AppDrawerState extends State<AppDrawer> {
       child: Column(
         children: [
           AppBar(
-            // FIXME: add an icon?
-            title: const Text('Icebox'),
+            title: Row(
+              children: [
+                const Image(
+                  image: AssetImage('assets/images/ice-cubes.png'),
+                  width: 40,
+                ),
+                Container(
+                  child: const Text('Icebox'),
+                  margin: const EdgeInsets.only(left: 8),
+                ),
+              ],
+            ),
             automaticallyImplyLeading: false,
           ),
           const Divider(),
@@ -39,7 +49,8 @@ class _AppDrawerState extends State<AppDrawer> {
             leading: const Icon(Icons.assignment_outlined),
             title: const Text('Freezer Items'),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed(FreezerItemsScreen.routeName);
+              Navigator.of(context)
+                  .pushReplacementNamed(FreezerItemsScreen.routeName);
             },
           ),
           const Divider(),
@@ -47,7 +58,8 @@ class _AppDrawerState extends State<AppDrawer> {
             leading: const Icon(Icons.ac_unit_outlined),
             title: const Text('Freezers'),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed(FreezersScreen.routeName);
+              Navigator.of(context)
+                  .pushReplacementNamed(FreezersScreen.routeName);
             },
           ),
           // const Divider(),
