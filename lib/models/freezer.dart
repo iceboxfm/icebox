@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// TODO: unit test
+
 enum FreezerType {
   chest,
   upright,

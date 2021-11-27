@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:icebox/models/item_categories.dart';
 import 'package:icebox/models/sort_by.dart';
 
@@ -31,10 +32,34 @@ class FreezerItem {
   @override
   String toString() {
     return 'FreezerItem('
-        'id:"$id", description:"$description", location:"$location", '
-        'category:"$category", quantity:"$quantity", frozenOn:$frozenOn, '
+        'id:$id, description:"$description", location:"$location", '
+        'category:"${category.label}", quantity:"$quantity", frozenOn:$frozenOn, '
         'goodFor:$goodFor, freezerId:$freezerId)';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is FreezerItem &&
+      other.id == id &&
+      other.description == description &&
+      other.quantity == quantity &&
+      other.frozenOn == frozenOn &&
+      other.goodFor == goodFor &&
+      other.category == category &&
+      other.location == location &&
+      other.freezerId == freezerId;
+
+  @override
+  int get hashCode => hashValues(
+        id,
+        description,
+        quantity,
+        frozenOn,
+        goodFor,
+        category,
+        location,
+        freezerId,
+      );
 
   FreezerItem copyWith({
     int? id,

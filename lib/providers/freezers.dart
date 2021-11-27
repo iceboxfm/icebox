@@ -5,6 +5,7 @@ import 'package:icebox/db/freezers_db.dart';
 import 'package:icebox/models/freezer.dart';
 
 // FIXME: limit freezers to 2-3 (configuration)
+// TODO: unit test
 
 class Freezers with ChangeNotifier {
   static const String _tag = 'icebox.providers.freezers';

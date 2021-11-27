@@ -27,7 +27,6 @@ class ItemCategories {
   }
 }
 
-// FIXME: needs to be comparable
 class ItemCategory implements Comparable<ItemCategory> {
   final String label;
   final String imagePath;
