@@ -29,6 +29,7 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
   bool _editing = false;
   bool _canSave = true;
   int? _freezerId;
+  String _itemLocation = '';
   FreezerItem _freezerItem = FreezerItem(
     description: '',
     quantity: '',
@@ -47,6 +48,7 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
         _canSave = false;
         _freezerItem = editing;
         _freezerId = editing.freezerId;
+        _itemLocation = editing.location ?? '';
       }
       _isInit = false;
     }
@@ -57,6 +59,8 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
   Widget build(final BuildContext context) {
     final freezerItems = context.read<FreezerItems>();
     final freezers = context.read<Freezers>();
+
+    _typeAheadController.value = TextEditingValue(text: _itemLocation);
 
     return Scaffold(
       appBar: AppBar(
@@ -118,7 +122,6 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
                     controller: _typeAheadController,
                     decoration: _fieldLabel('Location', 'Where is it?'),
                   ),
-                  initialValue: _freezerItem.location,
                   itemBuilder: (ctx, sugg) => ListTile(
                       title: Text(sugg.toString()),
                     ),
@@ -130,8 +133,10 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
                         .where((s) => s.toLowerCase().contains(pat));
                   },
                   onSuggestionSelected: (sugg) {
-                    _typeAheadController.text = sugg.toString();
-                    setState(() => _canSave = true);
+                    setState(() {
+                      _itemLocation = sugg.toString();
+                      _canSave = true;
+                    });
                   },
                   onSaved: (value) =>
                       _freezerItem = _freezerItem.copyWith(location: value),
