@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/screens/freezer_item_screen.dart';
@@ -7,7 +8,17 @@ import 'package:icebox/screens/freezer_screen.dart';
 import 'package:icebox/screens/freezers_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(const IceboxApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // let's only allow portrait orientation
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  runApp(const IceboxApp());
+}
 
 class IceboxApp extends StatelessWidget {
   const IceboxApp({Key? key}) : super(key: key);
@@ -28,10 +39,9 @@ class IceboxApp extends StatelessWidget {
           FreezerScreen.routeName: (ctx) => const FreezerScreen(),
           FreezerItemScreen.routeName: (ctx) => const FreezerItemScreen(),
         },
-        onUnknownRoute: (settings) {
-          return MaterialPageRoute(
-              builder: (ctx) => const FreezerItemsScreen());
-        },
+        onUnknownRoute: (settings) => MaterialPageRoute(
+          builder: (ctx) => const FreezerItemsScreen(),
+        ),
       ),
     );
   }

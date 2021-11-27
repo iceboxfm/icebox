@@ -60,7 +60,7 @@ class FreezerItemsScreen extends StatelessWidget {
            ),
          );
        }
-       return const Center(child: CircularProgressIndicator());
+       return _loadingWidget(context);
       },
     );
   }
@@ -68,5 +68,42 @@ class FreezerItemsScreen extends StatelessWidget {
   Future<void> _load(final BuildContext context) async {
     await context.read<Freezers>().load();
     await context.read<FreezerItems>().load();
+  }
+
+  Widget _loadingWidget(final BuildContext context){
+    // FIXME: give this more of a disabled look
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Freezer Items"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.ac_unit_outlined),
+              onPressed: (){
+                // nothing
+              }
+          ),
+          IconButton(
+            icon: const Icon(Icons.category),
+              onPressed: (){
+                // nothing
+              }
+          ),
+          IconButton(
+            icon: const Icon(Icons.sort),
+              onPressed: (){
+                // nothing
+              }
+          ),
+        ],
+      ),
+      drawer: AppDrawer(),
+      body: const Center(child: CircularProgressIndicator()),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: (){
+          // nothing
+        },
+      ),
+    );
   }
 }
