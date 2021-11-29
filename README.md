@@ -16,3 +16,6 @@ https://www.flaticon.com/premium-icon/freezer_2944682
 
 app
 https://www.flaticon.com/free-icon/ice-cubes_2996063
+
+Publishing 
+Need to setup build keys key.properties file - see https://docs.flutter.dev/deployment/android
