@@ -18,8 +18,11 @@ class FreezerItemsScreen extends StatelessWidget {
   Widget build(final BuildContext context) {
     final freezerItems = context.watch<FreezerItems>();
 
-    final multipleCategories = freezerItems.items.map((e) => e.category).toSet().length > 1;
-    final multipleFreezers = freezerItems.items.map((e) => e.freezerId).toSet().length > 1;
+    final selectedCategories = freezerItems.items.map((e) => e.category).toSet();
+    final multipleCategories = selectedCategories.length > 1;
+
+    final selectedFreezers = freezerItems.items.map((e) => e.freezerId!).toSet();
+    final multipleFreezers = selectedFreezers.length > 1;
 
     return FutureBuilder(
       future: _load(context),
@@ -33,14 +36,14 @@ class FreezerItemsScreen extends StatelessWidget {
                   icon: const Icon(Icons.ac_unit_outlined),
                   onPressed: multipleFreezers ? () => showDialog(
                     context: context,
-                    builder: (ctx) => FreezerDialog(),
+                    builder: (ctx) => FreezerDialog(selectedFreezers),
                   ).then((value) => freezerItems.limitFreezer(value)) : null,
                 ),
                 IconButton(
                   icon: const Icon(Icons.category),
                   onPressed: multipleCategories ? () => showDialog(
                     context: context,
-                    builder: (ctx) => CategoryDialog(),
+                    builder: (ctx) => CategoryDialog(selectedCategories),
                   ).then((value) => freezerItems.limitCategory(value)) : null,
                 ),
                 IconButton(
