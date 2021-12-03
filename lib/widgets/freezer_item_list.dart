@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 class FreezerItemList extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
+    // FIXME: can I just share the FreezerItems object from parent?
     final freezerItems = context.watch<FreezerItems>();
     final freezers = context.read<Freezers>();
 
