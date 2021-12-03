@@ -16,7 +16,7 @@ class FreezerItemsScreen extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final freezerItems = context.read<FreezerItems>();
+    final freezerItems = context.watch<FreezerItems>();
 
     return FutureBuilder(
       future: _load(context),
@@ -52,7 +52,7 @@ class FreezerItemsScreen extends StatelessWidget {
            drawer: AppDrawer(),
            body: freezerItems.isNotEmpty
                ? FreezerItemList()
-               : const Center(child: Text('Freezer items listed here.')),
+               : const Center(child: Text('No freezer items.')),
            floatingActionButton: FloatingActionButton(
              child: const Icon(Icons.add),
              onPressed: () =>
