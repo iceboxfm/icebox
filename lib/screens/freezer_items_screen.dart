@@ -49,6 +49,7 @@ class FreezerItemsScreen extends StatelessWidget {
     await context.read<FreezerItems>().load();
   }
 
+  // FIXME: refactor this into the code abve
   Widget _loadingWidget(final BuildContext context) {
     // FIXME: give this more of a disabled look
     return Scaffold(

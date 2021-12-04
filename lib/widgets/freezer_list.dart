@@ -2,85 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:icebox/models/freezer.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
-import 'package:icebox/screens/freezer_screen.dart';
-import 'package:icebox/widgets/dismissable_background.dart';
+import 'package:icebox/widgets/freezer_list_item.dart';
 import 'package:provider/provider.dart';
 
 class FreezerList extends StatelessWidget {
-  final Freezers _freezers;
-
-  const FreezerList(this._freezers);
+  const FreezerList({Key? key}) : super(key: key);
 
   @override
   Widget build(final BuildContext context) {
+    final freezers = context.watch<Freezers>();
     final freezerItems = context.read<FreezerItems>();
 
-    return ListView.builder(
-      itemCount: _freezers.count,
-      itemBuilder: (ctx, index) {
-        final freezer = _freezers[index] as Freezer;
-        final itemCount =
-            freezerItems.items.where((fi) => fi.freezerId == freezer.id).length;
+    return freezers.isNotEmpty
+        ? ListView.builder(
+            itemCount: freezers.count,
+            itemBuilder: (ctx, index) {
+              final freezer = freezers[index] as Freezer;
 
-        return Dismissible(
-          key: ValueKey(freezer.id),
-          direction: DismissDirection.endToStart,
-          background: DismissibleBackground(),
-          child: Card(
-            elevation: 2,
-            // FIXME: pull into a widget
-            child: ListTile(
-              title: Text(freezer.description),
-              leading: freezer.type.image!,
-              subtitle: Text(
-                '${freezer.shelves.isEmpty ? 'No' : freezer.shelves.length} shelves',
-              ),
-              trailing: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(itemCount > 0 ? '$itemCount items' : 'Empty'),
-              ),
-              contentPadding: const EdgeInsets.only(left: 2, right: 2),
-              onTap: () => Navigator.of(context)
-                  .pushNamed(FreezerScreen.routeName, arguments: freezer),
-            ),
-          ),
-          confirmDismiss: (direction) {
-            return showDialog(
-              context: context,
-              builder: (ctx) => AlertDialog(
-                title: const Text('Are you sure?'),
-                content: Text(
-                  'Do you want to permanently delete "${freezer.description}"?',
-                ),
-                actions: [
-                  TextButton(
-                    child: const Text('No'),
-                    onPressed: () => Navigator.of(ctx).pop(false),
-                  ),
-                  TextButton(
-                    child: const Text('Yes'),
-                    onPressed: () => Navigator.of(ctx).pop(true),
-                  ),
-                ],
-              ),
-            );
-          },
-          onDismissed: (direction) {
-            if (context.read<FreezerItems>().count(freezer.id!) == 0) {
-              _freezers.delete(freezer.id!).then((_) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('"${freezer.description}" was deleted.'),
-                    duration: const Duration(seconds: 3),
-                  ),
-                );
-              });
-            } else {
-              // FIXME:: warn that cant delete with items
-            }
-          },
-        );
-      },
-    );
+              return FreezerListItem(
+                freezer: freezer,
+                itemCount: freezerItems.items
+                    .where((fi) => fi.freezerId == freezer.id)
+                    .length,
+                onDelete: (f) => _deleteFreezer(context, freezers, f),
+              );
+            },
+          )
+        : const Center(child: Text('You have no freezers.'));
+  }
+
+  void _deleteFreezer(
+    final BuildContext context,
+    final Freezers freezers,
+    final Freezer freezer,
+  ) {
+    freezers.delete(freezer.id!).then((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('"${freezer.description}" was deleted.'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    });
   }
 }
