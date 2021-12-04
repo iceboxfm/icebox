@@ -18,7 +18,8 @@ class FreezersScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Freezers'),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
+      // FIXME: move this down into list view
       body: freezers.isNotEmpty
           ? FreezerList(freezers)
           : const Center(child: Text('You have no freezers.')),

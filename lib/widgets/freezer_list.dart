@@ -13,10 +13,14 @@ class FreezerList extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
+    final freezerItems = context.read<FreezerItems>();
+
     return ListView.builder(
       itemCount: _freezers.count,
       itemBuilder: (ctx, index) {
         final freezer = _freezers[index] as Freezer;
+        final itemCount =
+            freezerItems.items.where((fi) => fi.freezerId == freezer.id).length;
 
         return Dismissible(
           key: ValueKey(freezer.id),
@@ -24,11 +28,16 @@ class FreezerList extends StatelessWidget {
           background: DismissibleBackground(),
           child: Card(
             elevation: 2,
+            // FIXME: pull into a widget
             child: ListTile(
               title: Text(freezer.description),
               leading: freezer.type.image!,
               subtitle: Text(
                 '${freezer.shelves.isEmpty ? 'No' : freezer.shelves.length} shelves',
+              ),
+              trailing: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(itemCount > 0 ? '$itemCount items' : 'Empty'),
               ),
               contentPadding: const EdgeInsets.only(left: 2, right: 2),
               onTap: () => Navigator.of(context)
