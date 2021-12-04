@@ -3,10 +3,10 @@ import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/screens/freezer_item_screen.dart';
 import 'package:icebox/widgets/app_drawer.dart';
-import 'package:icebox/widgets/category_dialog.dart';
-import 'package:icebox/widgets/freezer_dialog.dart';
+import 'package:icebox/widgets/freezer_filter_button.dart';
 import 'package:icebox/widgets/freezer_item_list.dart';
-import 'package:icebox/widgets/sort_dialog.dart';
+import 'package:icebox/widgets/freezer_item_sort_button.dart';
+import 'package:icebox/widgets/item_category_filter_button.dart';
 import 'package:provider/provider.dart';
 
 class FreezerItemsScreen extends StatelessWidget {
@@ -18,12 +18,6 @@ class FreezerItemsScreen extends StatelessWidget {
   Widget build(final BuildContext context) {
     final freezerItems = context.watch<FreezerItems>();
 
-    final selectedCategories = freezerItems.items.map((e) => e.category).toSet();
-    final multipleCategories = selectedCategories.length > 1;
-
-    final selectedFreezers = freezerItems.items.map((e) => e.freezerId!).toSet();
-    final multipleFreezers = selectedFreezers.length > 1;
-
     return FutureBuilder(
       future: _load(context),
       builder: (ctx, snap) {
@@ -31,28 +25,10 @@ class FreezerItemsScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: const Text("Freezer Items"),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.ac_unit_outlined),
-                  onPressed: multipleFreezers ? () => showDialog(
-                    context: context,
-                    builder: (ctx) => FreezerDialog(selectedFreezers),
-                  ).then((value) => freezerItems.limitFreezer(value)) : null,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.category),
-                  onPressed: multipleCategories ? () => showDialog(
-                    context: context,
-                    builder: (ctx) => CategoryDialog(selectedCategories),
-                  ).then((value) => freezerItems.limitCategory(value)) : null,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.sort),
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (ctx) => SortDialog(freezerItems.sortBy),
-                  ).then((value) => freezerItems.sortingBy(value)),
-                ),
+              actions: const [
+                FreezerFilterButton(),
+                ItemCategoryFilterButton(),
+                FreezerItemSortButton(),
               ],
             ),
             drawer: AppDrawer(),
@@ -72,6 +48,7 @@ class FreezerItemsScreen extends StatelessWidget {
     );
   }
 
+  // FIXME: can this be done on app start?
   Future<void> _load(final BuildContext context) async {
     await context.read<Freezers>().load();
     await context.read<FreezerItems>().load();
