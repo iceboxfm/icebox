@@ -16,8 +16,6 @@ class FreezerItemsScreen extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final freezerItems = context.watch<FreezerItems>();
-
     return FutureBuilder(
       future: _load(context),
       builder: (ctx, snap) {
@@ -31,11 +29,8 @@ class FreezerItemsScreen extends StatelessWidget {
                 FreezerItemSortButton(),
               ],
             ),
-            drawer: AppDrawer(),
-            // FIXME: the empty behavior should be moved into the FreezerItemList so that the search bar is still there
-            body: freezerItems.isNotEmpty
-                ? FreezerItemList()
-                : const Center(child: Text('No freezer items.')),
+            drawer: const AppDrawer(),
+            body: const FreezerItemList(),
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.add),
               onPressed: () =>

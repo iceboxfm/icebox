@@ -4,6 +4,8 @@ import 'package:icebox/screens/freezers_screen.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class AppDrawer extends StatefulWidget {
+  const AppDrawer({Key? key}) : super(key: key);
+
   @override
   _AppDrawerState createState() => _AppDrawerState();
 }

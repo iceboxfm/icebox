@@ -11,6 +11,8 @@ import 'package:icebox/widgets/time_remaining.dart';
 import 'package:provider/provider.dart';
 
 class FreezerItemList extends StatelessWidget {
+  const FreezerItemList({Key? key}) : super(key: key);
+
   @override
   Widget build(final BuildContext context) {
     // FIXME: can I just share the FreezerItems object from parent?
@@ -35,7 +37,7 @@ class FreezerItemList extends StatelessWidget {
           ),
         FilterInput(freezerItems),
         Expanded(
-          child: ListView.builder(
+          child: freezerItems.isNotEmpty ? ListView.builder(
             itemCount: freezerItems.count(),
             itemBuilder: (ctx, idx) {
               final freezerItem = freezerItems[idx] as FreezerItem;
@@ -115,7 +117,7 @@ class FreezerItemList extends StatelessWidget {
                 },
               );
             },
-          ),
+          ) : const Center(child: Text('No freezer items.'),),
         ),
       ],
     );
