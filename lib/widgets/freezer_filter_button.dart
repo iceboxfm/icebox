@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:icebox/models/freezer.dart';
-import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/widgets/item_filter_dialog.dart';
 import 'package:provider/provider.dart';
 
 class FreezerFilterButton extends StatelessWidget {
-  const FreezerFilterButton({Key? key}) : super(key: key);
+  final bool enabled;
+
+  const FreezerFilterButton({
+    required this.enabled,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,7 @@ class FreezerFilterButton extends StatelessWidget {
 
     return IconButton(
       icon: const Icon(Icons.ac_unit_outlined),
-      onPressed: selected.length > 1
+      onPressed: enabled && selected.length > 1
           ? () => showDialog(
                 context: context,
                 builder: (ctx) => ItemFilterDialog(

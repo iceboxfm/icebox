@@ -4,7 +4,11 @@ import 'package:icebox/widgets/sort_dialog.dart';
 import 'package:provider/provider.dart';
 
 class FreezerItemSortButton extends StatelessWidget {
-  const FreezerItemSortButton({Key? key}) : super(key: key);
+  final bool enabled;
+
+  const FreezerItemSortButton({
+    required this.enabled,
+  });
 
   @override
   Widget build(final BuildContext context) {
@@ -12,10 +16,12 @@ class FreezerItemSortButton extends StatelessWidget {
 
     return IconButton(
       icon: const Icon(Icons.sort),
-      onPressed: () => showDialog(
-        context: context,
-        builder: (ctx) => SortDialog(freezerItems.sortBy),
-      ).then((value) => freezerItems.sortingBy(value)),
+      onPressed: enabled
+          ? () => showDialog(
+                context: context,
+                builder: (ctx) => SortDialog(freezerItems.sortBy),
+              ).then((value) => freezerItems.sortingBy(value))
+          : null,
     );
   }
 }

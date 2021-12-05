@@ -19,26 +19,29 @@ class FreezerItemsScreen extends StatelessWidget {
     return FutureBuilder(
       future: _load(context),
       builder: (ctx, snap) {
-        if (snap.connectionState == ConnectionState.done) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text("Freezer Items"),
-              actions: const [
-                FreezerFilterButton(),
-                ItemCategoryFilterButton(),
-                FreezerItemSortButton(),
-              ],
-            ),
-            drawer: const AppDrawer(),
-            body: const FreezerItemList(),
-            floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.add),
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(FreezerItemScreen.routeName),
-            ),
-          );
-        }
-        return _loadingWidget(context);
+        final bool loaded = snap.connectionState == ConnectionState.done;
+
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("Freezer Items"),
+            actions: [
+              FreezerFilterButton(enabled: loaded),
+              ItemCategoryFilterButton(enabled: loaded),
+              FreezerItemSortButton(enabled: loaded),
+            ],
+          ),
+          drawer: const AppDrawer(),
+          body: loaded
+              ? const FreezerItemList()
+              : const Center(child: CircularProgressIndicator()),
+          floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: loaded
+                ? () =>
+                    Navigator.of(context).pushNamed(FreezerItemScreen.routeName)
+                : null,
+          ),
+        );
       },
     );
   }
@@ -47,40 +50,5 @@ class FreezerItemsScreen extends StatelessWidget {
   Future<void> _load(final BuildContext context) async {
     await context.read<Freezers>().load();
     await context.read<FreezerItems>().load();
-  }
-
-  // FIXME: refactor this into the code abve
-  Widget _loadingWidget(final BuildContext context) {
-    // FIXME: give this more of a disabled look
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Freezer Items"),
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.ac_unit_outlined),
-              onPressed: () {
-                // nothing
-              }),
-          IconButton(
-              icon: const Icon(Icons.category),
-              onPressed: () {
-                // nothing
-              }),
-          IconButton(
-              icon: const Icon(Icons.sort),
-              onPressed: () {
-                // nothing
-              }),
-        ],
-      ),
-      drawer: AppDrawer(),
-      body: const Center(child: CircularProgressIndicator()),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          // nothing
-        },
-      ),
-    );
   }
 }

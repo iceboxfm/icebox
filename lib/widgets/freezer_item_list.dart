@@ -17,8 +17,6 @@ class FreezerItemList extends StatelessWidget {
     final freezerItems = context.watch<FreezerItems>();
     final freezers = context.read<Freezers>();
 
-    // FIXME: add some info when filter results in empty list
-
     return Column(
       children: [
         if (freezerItems.category != null)

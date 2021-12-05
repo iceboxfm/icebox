@@ -5,7 +5,11 @@ import 'package:icebox/widgets/item_filter_dialog.dart';
 import 'package:provider/provider.dart';
 
 class ItemCategoryFilterButton extends StatelessWidget {
-  const ItemCategoryFilterButton({Key? key}) : super(key: key);
+  final bool enabled;
+
+  const ItemCategoryFilterButton({
+    required this.enabled,
+  });
 
   @override
   Widget build(final BuildContext context) {
@@ -16,7 +20,7 @@ class ItemCategoryFilterButton extends StatelessWidget {
 
     return IconButton(
       icon: const Icon(Icons.category),
-      onPressed: multiple
+      onPressed: enabled && multiple
           ? () => showDialog(
                 context: context,
                 builder: (ctx) => ItemFilterDialog(_categories(ctx, selected)),
