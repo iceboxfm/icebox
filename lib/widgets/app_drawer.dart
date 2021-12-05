@@ -24,8 +24,6 @@ class _AppDrawerState extends State<AppDrawer> {
     _initPackageInfo();
   }
 
-  // FIXME: consider refactoring this to a future-builder
-
   @override
   Widget build(BuildContext context) {
     return Drawer(

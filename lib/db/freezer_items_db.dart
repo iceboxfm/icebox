@@ -5,7 +5,6 @@ import 'dart:developer' as dev;
 
 import 'package:sqflite/sqflite.dart';
 
-// TODO: unit test
 class FreezerItemsDb {
   static const String _tag = 'icebox.db.freezer_items_db';
   static const String _table = 'freezer_items';

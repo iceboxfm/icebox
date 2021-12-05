@@ -4,8 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:icebox/db/freezers_db.dart';
 import 'package:icebox/models/freezer.dart';
 
-// TODO: unit test
-
 class Freezers with ChangeNotifier {
   static const String _tag = 'icebox.providers.freezers';
 

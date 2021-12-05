@@ -1,7 +1,6 @@
 
 enum SortByField { description, frozenOn, timeRemaining, category }
 
-// TODO: unit test
 class SortBy {
   final SortByField? field;
   final bool reversed;

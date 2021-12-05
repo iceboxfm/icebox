@@ -17,7 +17,6 @@ class LimitingBanner extends StatelessWidget {
       width: double.infinity,
       height: 45,
       color: Colors.teal.shade300,
-      // TODO: theme
       padding: const EdgeInsets.all(6),
       child: Row(
         children: [

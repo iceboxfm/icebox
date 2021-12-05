@@ -7,7 +7,6 @@ import 'package:icebox/models/item_categories.dart';
 import 'package:icebox/models/sort_by.dart';
 
 // FIXME: try to clean up the limiting/filtering code
-// TODO: unit test
 
 class FreezerItems with ChangeNotifier {
   static const _tag = 'icebox.providers.freezer_items';
