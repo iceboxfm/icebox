@@ -25,21 +25,17 @@ class _ShelfNameDialogState extends State<ShelfNameDialog> {
       content: TextField(
         autofocus: true,
         controller: _controller,
-        decoration: const InputDecoration(hintText: 'What do you want to call the shelf?'),
+        decoration: const InputDecoration(
+          hintText: 'What do you want to call the shelf?',
+        ),
       ),
       actions: [
         TextButton(
-          child: const Text(
-            'Cancel',
-            style: TextStyle(color: Colors.red),
-          ),
+          child: const Text('Cancel'),
           onPressed: () => Navigator.pop(context),
         ),
         TextButton(
-          child: const Text(
-            'Ok',
-            style: TextStyle(color: Colors.green),
-          ),
+          child: const Text('Ok'),
           onPressed: () => Navigator.pop(context, _controller.text),
         ),
       ],

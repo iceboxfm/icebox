@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:icebox/models/freezer.dart';
+import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/providers/freezer_items.dart';
-import 'package:icebox/widgets/freezer_dialog.dart';
+import 'package:icebox/providers/freezers.dart';
+import 'package:icebox/widgets/item_filter_dialog.dart';
 import 'package:provider/provider.dart';
 
 class FreezerFilterButton extends StatelessWidget {
@@ -8,19 +11,35 @@ class FreezerFilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final freezers = context.read<Freezers>();
     final freezerItems = context.watch<FreezerItems>();
-
     final selected = freezerItems.items.map((e) => e.freezerId!).toSet();
-    final multiple = selected.length > 1;
 
     return IconButton(
       icon: const Icon(Icons.ac_unit_outlined),
-      onPressed: multiple
+      onPressed: selected.length > 1
           ? () => showDialog(
                 context: context,
-                builder: (ctx) => FreezerDialog(selected),
+                builder: (ctx) => ItemFilterDialog(
+                  _selectedFreezers(ctx, freezers, selected),
+                ),
               ).then((value) => freezerItems.limitFreezer(value))
           : null,
     );
+  }
+
+  List<ListTile> _selectedFreezers(
+    final BuildContext context,
+    final Freezers freezers,
+    final Set<int> freezerIds,
+  ) {
+    return freezers.freezers
+        .where((f) => freezerIds.contains(f.id))
+        .map((f) => ListTile(
+              leading: f.type.image,
+              title: Text(f.description),
+              onTap: () => Navigator.pop(context, f.id),
+            ))
+        .toList();
   }
 }

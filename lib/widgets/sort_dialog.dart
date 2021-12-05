@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../models/sort_by.dart';
 
-// FIXME: needs theme and visual work
-
 class SortDialog extends StatefulWidget {
   final SortBy _sortBy;
 
@@ -29,26 +27,24 @@ class _SortDialogState extends State<SortDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Container(
+      child: SizedBox(
         height: 380,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-        ),
         child: Column(
           children: [
             // title
             Container(
-              padding: const EdgeInsets.all(6),
+              padding: const EdgeInsets.all(10),
               width: double.infinity,
-              color: Theme.of(context).backgroundColor,
-              child: const Text('Sort items by...'),
+              child: const Text(
+                'Sort by...',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             // list items
-            SizedBox(
-              height: 295,
+            Expanded(
               child: ListView(
                 children: [
                   RadioListTile<SortByField>(

@@ -22,9 +22,6 @@ class _QuantityDialogState extends State<QuantityDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
       title: Text('Quantity of ${widget.description}'),
       content: TextField(
         autofocus: true,
@@ -33,17 +30,11 @@ class _QuantityDialogState extends State<QuantityDialog> {
       ),
       actions: [
         TextButton(
-          child: const Text(
-            'Cancel',
-            style: TextStyle(color: Colors.red),
-          ),
+          child: const Text('Cancel'),
           onPressed: () => Navigator.pop(context),
         ),
         TextButton(
-          child: const Text(
-            'Ok',
-            style: TextStyle(color: Colors.green),
-          ),
+          child: const Text('Ok'),
           onPressed: () => Navigator.pop(context, _controller.text),
         ),
       ],

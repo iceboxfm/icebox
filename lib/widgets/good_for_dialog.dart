@@ -6,29 +6,24 @@ class GoodForDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Container(
+      child: SizedBox(
         height: 400,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-        ),
         child: Column(
           children: [
             // title
             Container(
-              padding: const EdgeInsets.all(6),
+              padding: const EdgeInsets.all(10),
               width: double.infinity,
-              color: Theme.of(context).backgroundColor,
               child: const Text(
                 'Select item type...',
-                // style: Theme.of(context).appBarTheme.textTheme.headline6,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             // list items
-            SizedBox(
-              height: 345,
+            Expanded(
               child: ListView(
                 children: const [
                   GoodForItem('Bacon', '1 month', 1),
@@ -57,6 +52,17 @@ class GoodForDialog extends StatelessWidget {
                 ].map((e) => SelectionItemTile(e)).toList(),
               ),
             ),
+            Container(
+              height: 20,
+              margin: const EdgeInsets.only(top: 4),
+              child: const Text(
+                'These durations are only suggestions.',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            )
           ],
         ),
       ),

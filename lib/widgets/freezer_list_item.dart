@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icebox/models/freezer.dart';
 import 'package:icebox/screens/freezer_screen.dart';
+import 'package:icebox/widgets/delete_confirmation_dialog.dart';
 import 'package:icebox/widgets/dismissable_background.dart';
 
 class FreezerListItem extends StatelessWidget {
@@ -37,28 +38,10 @@ class FreezerListItem extends StatelessWidget {
           ),
         ),
       ),
-      confirmDismiss: (direction) {
-        return showDialog(
-          context: context,
-          // FIXME: pull into widget?
-          builder: (ctx) => AlertDialog(
-            title: const Text('Are you sure?'),
-            content: Text(
-              'Do you want to permanently delete "${freezer.description}"?',
-            ),
-            actions: [
-              TextButton(
-                child: const Text('No'),
-                onPressed: () => Navigator.of(ctx).pop(false),
-              ),
-              TextButton(
-                child: const Text('Yes'),
-                onPressed: () => Navigator.of(ctx).pop(true),
-              ),
-            ],
-          ),
-        );
-      },
+      confirmDismiss: (direction) => showDialog(
+        context: context,
+        builder: (ctx) => DeleteConfirmationDialog(freezer.description),
+      ),
       onDismissed: (direction) {
         if (itemCount == 0) {
           onDelete(freezer);
