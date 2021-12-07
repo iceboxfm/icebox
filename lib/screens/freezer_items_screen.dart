@@ -46,7 +46,6 @@ class FreezerItemsScreen extends StatelessWidget {
     );
   }
 
-  // FIXME: can this be done on app start?
   Future<void> _load(final BuildContext context) async {
     await context.read<Freezers>().load();
     await context.read<FreezerItems>().load();
