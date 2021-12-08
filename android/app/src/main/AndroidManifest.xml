@@ -2,6 +2,7 @@
     package="com.stehno.icebox.icebox">
    <application
         android:label="icebox"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
