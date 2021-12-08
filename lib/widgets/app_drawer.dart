@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icebox/screens/freezer_items_screen.dart';
 import 'package:icebox/screens/freezers_screen.dart';
+import 'package:icebox/widgets/about_app.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -59,6 +60,8 @@ class _AppDrawerState extends State<AppDrawer> {
                   .pushReplacementNamed(FreezersScreen.routeName),
           ),
           const Spacer(),
+          const AboutApp(),
+          const Divider(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
