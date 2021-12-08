@@ -77,6 +77,7 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
                   autofocus: _freezerItem.description.isEmpty,
                   decoration: _fieldLabel('Description', 'What is it?'),
                   initialValue: _freezerItem.description,
+                  maxLength: 50,
                   validator: (value) => _validateNotEmpty(
                     value,
                     'A description is required.',
@@ -88,6 +89,7 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
                 TextFormField(
                   decoration: _fieldLabel('Quantity', 'How much do you have?'),
                   initialValue: _freezerItem.quantity,
+                  maxLength: 50,
                   validator: (value) => _validateNotEmpty(
                     value,
                     'A quantity is required.',
@@ -123,8 +125,8 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
                     decoration: _fieldLabel('Location', 'Where is it?'),
                   ),
                   itemBuilder: (ctx, sugg) => ListTile(
-                      title: Text(sugg.toString()),
-                    ),
+                    title: Text(sugg.toString()),
+                  ),
                   suggestionsCallback: (pattern) {
                     final pat = pattern.toLowerCase();
                     return freezers

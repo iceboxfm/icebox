@@ -6,8 +6,6 @@ import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/models/item_categories.dart';
 import 'package:icebox/models/sort_by.dart';
 
-// FIXME: try to clean up the limiting/filtering code
-
 class FreezerItems with ChangeNotifier {
   static const _tag = 'icebox.providers.freezer_items';
   static const _defaultSort = SortBy(SortByField.timeRemaining, false);
@@ -50,7 +48,6 @@ class FreezerItems with ChangeNotifier {
 
   void sortingBy([SortBy? sortBy]) {
     _sortBy = sortBy ?? _defaultSort;
-    // FIXME: should I just sort in place?
     _freezerItems = FreezerItem.sort(_freezerItems, _sortBy);
     notifyListeners();
   }

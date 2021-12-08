@@ -61,6 +61,7 @@ class _FreezerScreenState extends State<FreezerScreen> {
                   labelText: 'Description',
                   hintText: 'What do you want to call this freezer?',
                 ),
+                maxLength: 50,
                 autofocus: !_editing,
                 validator: (value) => value == null || value.isEmpty
                     ? 'A description must be specified.'

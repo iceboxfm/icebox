@@ -24,6 +24,7 @@ class _ShelfNameDialogState extends State<ShelfNameDialog> {
       title: const Text('Shelf Name'),
       content: TextField(
         autofocus: true,
+        maxLength: 50,
         controller: _controller,
         decoration: const InputDecoration(
           hintText: 'What do you want to call the shelf?',

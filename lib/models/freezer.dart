@@ -20,9 +20,10 @@ extension FreezerTypeExt on FreezerType {
   }
 
   Image? get image {
-    // TODO: move this out and just provide the path?
     return Image(
-        image: AssetImage('assets/images/${name}_freezer.png'), width: 40);
+      image: AssetImage('assets/images/${name}_freezer.png'),
+      width: 40,
+    );
   }
 
   static FreezerType? forName(final String name) {
