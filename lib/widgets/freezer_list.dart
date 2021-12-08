@@ -39,7 +39,7 @@ class FreezerList extends StatelessWidget {
     freezers.delete(freezer.id!).then((_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('"${freezer.description}" was deleted.'),
+          content: Text('Freezer "${freezer.description}" was deleted.'),
           duration: const Duration(seconds: 3),
         ),
       );

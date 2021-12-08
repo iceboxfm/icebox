@@ -38,18 +38,29 @@ class FreezerListItem extends StatelessWidget {
           ),
         ),
       ),
-      confirmDismiss: (direction) => showDialog(
-        context: context,
-        builder: (ctx) => DeleteConfirmationDialog(freezer.description),
-      ),
-      onDismissed: (direction) {
-        if (itemCount == 0) {
-          onDelete(freezer);
-        } else {
-          // FIXME:: warn that cant delete with items
-        }
-      },
+      confirmDismiss: (direction) => itemCount == 0
+          ? showDialog(
+              context: context,
+              builder: (ctx) => DeleteConfirmationDialog(freezer.description),
+            )
+          : _blockDelete(context),
+      onDismissed: (direction) => onDelete(freezer),
     );
+  }
+
+  Future<bool> _blockDelete(final BuildContext context) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.orangeAccent,
+        // TODO: roll into theme
+        content: Text(
+          'Freezer "${freezer.description}" cannot be deleted - it has items.',
+          style: const TextStyle(color: Colors.black),
+        ),
+        duration: const Duration(seconds: 3),
+      ),
+    );
+    return false;
   }
 
   Text _freezerShelves(final int shelfCount) {
