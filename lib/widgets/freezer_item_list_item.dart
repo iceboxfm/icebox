@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:icebox/models/freezer_item.dart';
-import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/screens/freezer_item_screen.dart';
 import 'package:icebox/widgets/delete_confirmation_dialog.dart';
 import 'package:icebox/widgets/dismissable_background.dart';
 import 'package:icebox/widgets/time_remaining.dart';
 
 class FreezerItemListItem extends StatelessWidget {
-  final Freezers freezers;
   final FreezerItem freezerItem;
+  final String freezerDescription;
   final Function onDelete;
   final Function onLongPress;
 
   const FreezerItemListItem({
-    required this.freezers,
+    required this.freezerDescription,
     required this.freezerItem,
     required this.onDelete,
     required this.onLongPress,
@@ -41,7 +40,7 @@ class FreezerItemListItem extends StatelessWidget {
                 children: [
                   Text(freezerItem.description),
                   Text(freezerItem.quantity),
-                  _itemLocation(freezers, freezerItem),
+                  _itemLocation(freezerItem),
                 ],
               ),
             ),
@@ -60,14 +59,13 @@ class FreezerItemListItem extends StatelessWidget {
     );
   }
 
-  Widget _itemLocation(final Freezers freezers, final FreezerItem item) {
-    final freezer = freezers.retrieve(item.freezerId!).description;
+  Widget _itemLocation(final FreezerItem item) {
     final shelf = item.location != null && item.location!.isNotEmpty
         ? '- ${item.location}'
         : '';
 
     return Text(
-      '$freezer $shelf',
+      '$freezerDescription $shelf',
       style: const TextStyle(
         fontStyle: FontStyle.italic,
       ),

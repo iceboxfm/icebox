@@ -37,7 +37,7 @@ class FreezerItemList extends StatelessWidget {
               ? ListView.builder(
                   itemCount: freezerItems.count(),
                   itemBuilder: (ctx, idx) => FreezerItemListItem(
-                    freezers: freezers,
+                    freezerDescription: freezers.retrieve(freezerItems[idx].freezerId!).description,
                     freezerItem: freezerItems[idx] as FreezerItem,
                     onLongPress: (fi) {
                       showDialog(
@@ -72,8 +72,6 @@ class FreezerItemList extends StatelessWidget {
     );
   }
 }
-
-// FIXME: disable the add button when no freezers
 
 class NoFreezerItemsText extends StatelessWidget {
   final bool hasFreezers;
