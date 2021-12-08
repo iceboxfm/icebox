@@ -1,4 +1,14 @@
-# icebox
+# Icebox Freezer Manager
+
+An Android app allowing you to better manage the contents of your freezer.
+
+## Building
+
+## Publishing (Attached)
+
+
+## Publishing (Play Store)
+
 
 ## Attributions
 
