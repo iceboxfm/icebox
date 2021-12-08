@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
+import 'package:icebox/screens/freezers_screen.dart';
 import 'package:icebox/widgets/filter_input.dart';
 import 'package:icebox/widgets/freezer_item_list_item.dart';
 import 'package:icebox/widgets/limiting_banner.dart';
@@ -65,9 +66,40 @@ class FreezerItemList extends StatelessWidget {
                     },
                   ),
                 )
-              : const Center(
-                  child: Text('No freezer items.'),
-                ),
+              : NoFreezerItemsText(freezers.isNotEmpty),
+        ),
+      ],
+    );
+  }
+}
+
+// FIXME: disable the add button when no freezers
+
+class NoFreezerItemsText extends StatelessWidget {
+  final bool hasFreezers;
+
+  const NoFreezerItemsText(this.hasFreezers);
+
+  @override
+  Widget build(final BuildContext context) {
+    return Center(
+      child: hasFreezers ? _noItems() : _noFreezers(context),
+    );
+  }
+
+  Widget _noItems() {
+    return const Text('No freezer items.');
+  }
+
+  Widget _noFreezers(final BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text('You have no freezers.'),
+        TextButton(
+          child: const Text('Create one.'),
+          onPressed: () => Navigator.of(context)
+              .pushReplacementNamed(FreezersScreen.routeName),
         ),
       ],
     );

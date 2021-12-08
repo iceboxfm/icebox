@@ -36,7 +36,10 @@ class FreezerItemsScreen extends StatelessWidget {
               : const Center(child: CircularProgressIndicator()),
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
-            onPressed: loaded
+            backgroundColor: loaded && context.read<Freezers>().isNotEmpty
+                ? Colors.blue
+                : Colors.grey,
+            onPressed: loaded && context.read<Freezers>().isNotEmpty
                 ? () =>
                     Navigator.of(context).pushNamed(FreezerItemScreen.routeName)
                 : null,

@@ -48,19 +48,15 @@ class _AppDrawerState extends State<AppDrawer> {
           ListTile(
             leading: const Icon(Icons.assignment_outlined),
             title: const Text('Freezer Items'),
-            onTap: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(FreezerItemsScreen.routeName);
-            },
+            onTap: () => Navigator.of(context)
+                  .pushReplacementNamed(FreezerItemsScreen.routeName),
           ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.ac_unit_outlined),
             title: const Text('Freezers'),
-            onTap: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(FreezersScreen.routeName);
-            },
+            onTap: () => Navigator.of(context)
+                  .pushReplacementNamed(FreezersScreen.routeName),
           ),
           const Spacer(),
           Padding(
