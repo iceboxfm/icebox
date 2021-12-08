@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/screens/freezer_item_screen.dart';
@@ -9,6 +11,13 @@ import 'package:icebox/screens/freezers_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  LicenseRegistry.addLicense(() async* {
+    yield LicenseEntryWithLineBreaks(
+      ['google_fonts'],
+      await rootBundle.loadString('google_fonts/OFL.txt'),
+    );
+  });
+
   WidgetsFlutterBinding.ensureInitialized();
 
   // let's only allow portrait orientation
@@ -32,6 +41,9 @@ class IceboxApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
+          textTheme: GoogleFonts.exo2TextTheme(
+            Theme.of(context).textTheme,
+          ),
           primarySwatch: const MaterialColor(
             4280402675,
             {
