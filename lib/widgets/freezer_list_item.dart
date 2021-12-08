@@ -52,7 +52,6 @@ class FreezerListItem extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Colors.orangeAccent,
-        // TODO: roll into theme
         content: Text(
           'Freezer "${freezer.description}" cannot be deleted - it has items.',
           style: const TextStyle(color: Colors.black),
