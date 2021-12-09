@@ -5,6 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 class AboutApp extends StatelessWidget {
   const AboutApp({Key? key}) : super(key: key);
 
+  // FIXME: should I have a direct email link? - need to add query to manifest if so
+
   @override
   Widget build(final BuildContext context) {
     return AboutListTile(
