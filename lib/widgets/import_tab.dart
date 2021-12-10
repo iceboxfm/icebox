@@ -43,8 +43,8 @@ class _ImportTabState extends State<ImportTab> {
             padding: const EdgeInsets.all(4),
             margin: const EdgeInsets.all(6),
             child: const Text(
-              'It is recommended that you export your data first, as a backup, '
-              'before importing data to avoid unexpected data loss.',
+              'To avoid unexpected data loss, tt is recommended that you export '
+              'your data, to use as a backup, before importing.',
             ),
           ),
           const Divider(),
@@ -94,9 +94,8 @@ class _ImportTabState extends State<ImportTab> {
                         final content = await _loadFile();
                         dev.log('Imported: $content', name: _tag);
 
-                        _import(context, content);
-
-                        // FIXME: notify with snack bar
+                        _import(context, content)
+                            .then((_) => _showMessage(context));
                       }
                     : null,
               ),
@@ -112,16 +111,27 @@ class _ImportTabState extends State<ImportTab> {
 
   Future<String> _loadFile() => File(_file!).readAsString();
 
-  void _import(final BuildContext context, final String json) {
-    final map = jsonDecode(json);
+  Future<void> _import(final BuildContext context, final String json) async {
+    if (json.isNotEmpty) {
+      final map = jsonDecode(json);
 
-    context.read<Freezers>().importing((map['freezers'] as List<dynamic>)
-        .map((f) => Freezer.fromJson(f))
-        .toList());
+      await context.read<Freezers>().importing(
+          (map['freezers'] as List<dynamic>)
+              .map((f) => Freezer.fromJson(f))
+              .toList());
 
-    context.read<FreezerItems>().importing(
-        (map['freezerItems'] as List<dynamic>)
-            .map((fi) => FreezerItem.fromJson(fi))
-            .toList());
+      context.read<FreezerItems>().importing(
+          (map['freezerItems'] as List<dynamic>)
+              .map((fi) => FreezerItem.fromJson(fi))
+              .toList());
+    }
   }
+
+  void _showMessage(final BuildContext context) =>
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('The data has been imported.'),
+          duration: Duration(seconds: 4),
+        ),
+      );
 }
