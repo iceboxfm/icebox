@@ -8,6 +8,7 @@ import 'package:icebox/models/freezer.dart';
 import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
+import 'package:icebox/util/snack_bars.dart';
 import 'package:provider/provider.dart';
 
 class ImportTab extends StatefulWidget {
@@ -126,33 +127,11 @@ class _ImportTabState extends State<ImportTab> {
                   .toList(),
             );
 
-        _showMessage(context);
-
+        SnackBars.showMessage(context, 'The data has been imported.');
       } catch (ex) {
         dev.log('Unable to import due to error: "$ex"', name: _tag);
-        _showError(context, ex.toString());
+        SnackBars.showError(context, 'Import failed due to error: "$ex".');
       }
     }
   }
-
-  void _showMessage(final BuildContext context) =>
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('The data has been imported.'),
-          duration: Duration(seconds: 4),
-        ),
-      );
-
-  // FIXME: roll these into a util to share
-  void _showError(final BuildContext context, final String err) =>
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.orangeAccent,
-          content: Text(
-            'Import failed due to error: "$err".',
-            style: const TextStyle(color: Colors.black),
-          ),
-          duration: const Duration(seconds: 6),
-        ),
-      );
 }

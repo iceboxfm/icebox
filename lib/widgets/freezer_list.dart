@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:icebox/models/freezer.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
+import 'package:icebox/util/snack_bars.dart';
 import 'package:icebox/widgets/freezer_list_item.dart';
 import 'package:provider/provider.dart';
 
@@ -37,11 +38,9 @@ class FreezerList extends StatelessWidget {
     final Freezer freezer,
   ) {
     freezers.delete(freezer.id!).then((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Freezer "${freezer.description}" was deleted.'),
-          duration: const Duration(seconds: 3),
-        ),
+      SnackBars.showMessage(
+        context,
+        'Freezer "${freezer.description}" was deleted.',
       );
     });
   }

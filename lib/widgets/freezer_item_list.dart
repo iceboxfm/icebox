@@ -3,6 +3,7 @@ import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/screens/freezers_screen.dart';
+import 'package:icebox/util/snack_bars.dart';
 import 'package:icebox/widgets/filter_input.dart';
 import 'package:icebox/widgets/freezer_item_list_item.dart';
 import 'package:icebox/widgets/limiting_banner.dart';
@@ -37,7 +38,9 @@ class FreezerItemList extends StatelessWidget {
               ? ListView.builder(
                   itemCount: freezerItems.count(),
                   itemBuilder: (ctx, idx) => FreezerItemListItem(
-                    freezerDescription: freezers.retrieve(freezerItems[idx].freezerId!).description,
+                    freezerDescription: freezers
+                        .retrieve(freezerItems[idx].freezerId!)
+                        .description,
                     freezerItem: freezerItems[idx] as FreezerItem,
                     onLongPress: (fi) {
                       showDialog(
@@ -54,13 +57,9 @@ class FreezerItemList extends StatelessWidget {
                     },
                     onDelete: (fi) {
                       freezerItems.delete(fi.id!).then((_) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              '"${fi.description}" was deleted.',
-                            ),
-                            duration: const Duration(seconds: 3),
-                          ),
+                        SnackBars.showMessage(
+                          context,
+                          '"${fi.description}" was deleted.',
                         );
                       });
                     },

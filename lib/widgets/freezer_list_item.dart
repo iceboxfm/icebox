@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icebox/models/freezer.dart';
 import 'package:icebox/screens/freezer_screen.dart';
+import 'package:icebox/util/snack_bars.dart';
 import 'package:icebox/widgets/delete_confirmation_dialog.dart';
 import 'package:icebox/widgets/dismissable_background.dart';
 
@@ -49,15 +50,10 @@ class FreezerListItem extends StatelessWidget {
   }
 
   Future<bool> _blockDelete(final BuildContext context) async {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.orangeAccent,
-        content: Text(
-          'Freezer "${freezer.description}" cannot be deleted - it has items.',
-          style: const TextStyle(color: Colors.black),
-        ),
-        duration: const Duration(seconds: 3),
-      ),
+    SnackBars.showError(
+      context,
+      'Freezer "${freezer.description}" cannot be deleted - it has items.',
+      4,
     );
     return false;
   }

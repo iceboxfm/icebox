@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
+import 'package:icebox/util/snack_bars.dart';
 import 'package:provider/provider.dart';
 
 class ExportTab extends StatefulWidget {
@@ -78,7 +79,11 @@ class _ExportTabState extends State<ExportTab> {
                         dev.log('Exported: $content', name: _tag);
 
                         _saveFile('$_folder/$file', content).then((f) {
-                          _showMessage(context, f.path);
+                          SnackBars.showMessage(
+                            context,
+                            'Your data has been exported to:\n${f.path}.',
+                            6,
+                          );
                         });
                       }
                     : null,
@@ -100,14 +105,4 @@ class _ExportTabState extends State<ExportTab> {
 
   Future<File> _saveFile(final String path, final String content) =>
       File(path).writeAsString(content);
-
-  void _showMessage(final BuildContext context, final String path) =>
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Your data has been exported to:\n$path.',
-          ),
-          duration: const Duration(seconds: 6),
-        ),
-      );
 }
