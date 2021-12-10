@@ -17,7 +17,6 @@ class ImportTab extends StatefulWidget {
   State<ImportTab> createState() => _ImportTabState();
 }
 
-// fIXME: these two tabs have a lot of similar code
 class _ImportTabState extends State<ImportTab> {
   static const String _tag = 'icebox.widgets.import_tab';
   String? _file;

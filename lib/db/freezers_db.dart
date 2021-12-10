@@ -55,14 +55,12 @@ class FreezersDb {
     );
   }
 
-  static Map<String, dynamic> _toMap(final Freezer freezer) {
-    return {
-      'id': freezer.id,
-      'description': freezer.description,
-      'type': freezer.type.name,
-      'shelves': jsonEncode(freezer.shelves),
-    };
-  }
+  static Map<String, dynamic> _toMap(final Freezer freezer) => {
+        'id': freezer.id,
+        'description': freezer.description,
+        'type': freezer.type.name,
+        'shelves': jsonEncode(freezer.shelves),
+      };
 
   static Freezer _fromMap(final Map<String, dynamic> map) {
     final List<dynamic> list = jsonDecode(map['shelves'].toString());

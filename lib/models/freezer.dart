@@ -52,8 +52,6 @@ class Freezer {
     required this.type,
   });
 
-  // FIXME: bring the map code into models?
-
   factory Freezer.fromJson(Map<String, dynamic> data) => Freezer(
         id: data['id'],
         description: data['description'],
