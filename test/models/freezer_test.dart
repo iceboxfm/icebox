@@ -81,4 +81,11 @@ void main() {
       '{"id":3,"description":"Garage","shelves":["Upper","Lower"],"type":"chest"}',
     );
   });
+
+  test('Decoding from JSON', (){
+    const String json =  '{"id":3,"description":"Garage","shelves":["Upper","Lower"],"type":"chest"}';
+    final decoded = jsonDecode(json);
+    final obj = Freezer.fromJson(decoded);
+    expect(obj, _freezer);
+  });
 }

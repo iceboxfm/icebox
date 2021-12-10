@@ -23,6 +23,19 @@ class FreezerItem {
     this.freezerId,
   });
 
+  factory FreezerItem.fromJson(final Map<String, dynamic> data) {
+    return FreezerItem(
+      id: data['id'],
+      description: data['description'],
+      quantity: data['quantity'],
+      frozenOn: DateTime.fromMillisecondsSinceEpoch(data['frozenOn']),
+      goodFor: data['goodFor'],
+      category: ItemCategories.find(data['category']),
+      location: data['location'],
+      freezerId: data['freezer'],
+    );
+  }
+
   Duration get timeRemaining {
     final goodForDays = goodFor * 30;
     final daysFrozen = DateTime.now().difference(frozenOn).inDays;

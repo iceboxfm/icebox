@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icebox/widgets/app_drawer.dart';
 import 'package:icebox/widgets/export_tab.dart';
+import 'package:icebox/widgets/import_tab.dart';
 
 class ImportExportScreen extends StatelessWidget {
   static const String routeName = '/import-export';
@@ -28,7 +29,7 @@ class ImportExportScreen extends StatelessWidget {
         body: const TabBarView(
           children: [
             ExportTab(),
-            Center(child: Text('importing...')),
+            ImportTab(),
           ],
         ),
       ),

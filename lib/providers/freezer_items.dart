@@ -86,24 +86,29 @@ class FreezerItems with ChangeNotifier {
 
   Future<void> save(final FreezerItem freezerItem) async {
     if (freezerItem.id == null) {
-      FreezerItemsDb.create(freezerItem).then((fi) {
-        _freezerItems.add(fi);
-        _freezerItems = FreezerItem.sort(_freezerItems, _sortBy);
-
-        dev.log('Created: $fi', name: _tag);
-        notifyListeners();
-      });
+      await _create(freezerItem);
     } else {
-      FreezerItemsDb.update(freezerItem).then((_) {
-        final existingIdx =
-            _freezerItems.indexWhere((f) => freezerItem.id == f.id);
-        _freezerItems[existingIdx] = freezerItem;
-        _freezerItems = FreezerItem.sort(_freezerItems, _sortBy);
-
-        dev.log('Updated: $freezerItem', name: _tag);
-        notifyListeners();
-      });
+      await _update(freezerItem);
     }
+    notifyListeners();
+  }
+
+  Future<FreezerItem> _create(final FreezerItem freezerItem) async {
+    final item = await FreezerItemsDb.create(freezerItem);
+    _freezerItems.add(item);
+    _freezerItems = FreezerItem.sort(_freezerItems, _sortBy);
+
+    dev.log('Created: $item', name: _tag);
+    return item;
+  }
+
+  Future<void> _update(final FreezerItem freezerItem) async {
+    await FreezerItemsDb.update(freezerItem);
+    final existingIdx = _freezerItems.indexWhere((f) => freezerItem.id == f.id);
+    _freezerItems[existingIdx] = freezerItem;
+    _freezerItems = FreezerItem.sort(_freezerItems, _sortBy);
+
+    dev.log('Updated: $freezerItem', name: _tag);
   }
 
   Future<void> delete(final int freezerItemId) async {
@@ -113,6 +118,29 @@ class FreezerItems with ChangeNotifier {
       dev.log('Deleted: $freezerItemId', name: _tag);
       notifyListeners();
     });
+  }
+
+  void importing(final List<FreezerItem> items) async {
+    int created = 0;
+    int updated = 0;
+
+    for (var f in items) {
+      if (_notExisting(f.id!)) {
+        await _create(f);
+        created++;
+      } else {
+        await _update(f);
+        updated++;
+      }
+    }
+
+    dev.log('Imported $created new items and $updated updated items.',
+        name: _tag);
+    notifyListeners();
+  }
+
+  bool _notExisting(final int itemId) {
+    return _freezerItems.where((f) => f.id == itemId).isEmpty;
   }
 
   List<FreezerItem> _filter(final List<FreezerItem> items) {

@@ -11,7 +11,7 @@ class Freezers with ChangeNotifier {
   bool _loaded = false;
 
   Future<void> load() async {
-    if( !_loaded) {
+    if (!_loaded) {
       final items = await FreezersDb.retrieve();
 
       _freezers.clear();
@@ -42,21 +42,28 @@ class Freezers with ChangeNotifier {
 
   Future<void> save(final Freezer freezer) async {
     if (freezer.id == null) {
-      FreezersDb.create(freezer).then((f) {
-        _freezers.add(f);
-
-        dev.log('Created: $f', name: _tag);
-        notifyListeners();
-      });
+      await _create(freezer);
     } else {
-      FreezersDb.update(freezer).then((_) {
-        final existingIdx = _freezers.indexWhere((f) => freezer.id == f.id);
-        _freezers[existingIdx] = freezer;
-
-        dev.log('Updated: $freezer', name: _tag);
-        notifyListeners();
-      });
+      await _update(freezer);
     }
+    notifyListeners();
+  }
+
+  Future<Freezer> _create(final Freezer freezer) async {
+    final updated = await FreezersDb.create(freezer);
+    _freezers.add(updated);
+
+    dev.log('Created: $updated', name: _tag);
+    return updated;
+  }
+
+  Future<void> _update(final Freezer freezer) {
+    return FreezersDb.update(freezer).then((_) {
+      final existingIdx = _freezers.indexWhere((f) => freezer.id == f.id);
+      _freezers[existingIdx] = freezer;
+
+      dev.log('Updated: $freezer', name: _tag);
+    });
   }
 
   Future<void> delete(final int freezerId) async {
@@ -66,5 +73,27 @@ class Freezers with ChangeNotifier {
       dev.log('Deleted: $freezerId', name: _tag);
       notifyListeners();
     });
+  }
+
+  Future<void> importing(final List<Freezer> items) async {
+    int created = 0;
+    int updated = 0;
+
+    for (var f in items) {
+      if (_notExisting(f.id!)) {
+        await _create(f);
+        created++;
+      } else {
+        await _update(f);
+        updated++;
+      }
+    }
+
+    dev.log('Imported $created new freezers and $updated updated freezers.', name: _tag);
+    notifyListeners();
+  }
+
+  bool _notExisting(final int freezerId) {
+    return _freezers.where((f) => f.id == freezerId).isEmpty;
   }
 }

@@ -211,4 +211,11 @@ void main() {
       '{"id":1,"description":"Chicken parts","quantity":"a bunch","frozenOn":1634826082000,"goodFor":4,"category":"Meat - Poultry","location":"Middle shelf","freezer":10}',
     );
   });
+
+  test('Decoding from JSON', (){
+    const String json =  '{"id":1,"description":"Chicken parts","quantity":"a bunch","frozenOn":1634826082000,"goodFor":4,"category":"Meat - Poultry","location":"Middle shelf","freezer":10}';
+    final decoded = jsonDecode(json);
+    final obj = FreezerItem.fromJson(decoded);
+    expect(obj, item);
+  });
 }

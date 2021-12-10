@@ -52,6 +52,15 @@ class Freezer {
     required this.type,
   });
 
+  // FIXME: bring the map code into models?
+
+  factory Freezer.fromJson(Map<String, dynamic> data) => Freezer(
+        id: data['id'],
+        description: data['description'],
+        shelves: (data['shelves'] as List<dynamic>).map((e) => e.toString()).toList(),
+        type: FreezerTypeExt.forName(data['type'])!,
+      );
+
   @override
   bool operator ==(Object other) {
     final Function eq = const ListEquality().equals;
@@ -88,9 +97,9 @@ class Freezer {
       'Freezer{id:$id, description:"$description", type:${type.name}, shelves:$shelves}';
 
   Map toJson() => {
-    'id': id,
-    'description': description,
-    'shelves': shelves,
-    'type': type.name,
-  };
+        'id': id,
+        'description': description,
+        'shelves': shelves,
+        'type': type.name,
+      };
 }

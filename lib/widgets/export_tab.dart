@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:provider/provider.dart';
-import 'package:path_provider/path_provider.dart';
 
 class ExportTab extends StatefulWidget {
   const ExportTab({Key? key}) : super(key: key);
@@ -67,20 +66,22 @@ class _ExportTabState extends State<ExportTab> {
             children: [
               ElevatedButton(
                 child: const Text('Export'),
-                onPressed: _folder != null ? () {
-                  final file = 'icebox-${DateTime.now().millisecondsSinceEpoch}.json';
-                  dev.log(
-                    'Exporting file ($file) to folder ($_folder).',
-                    name: _tag,
-                  );
+                onPressed: _folder != null
+                    ? () {
+                        final file = _filename();
+                        dev.log(
+                          'Exporting file ($file) to folder ($_folder).',
+                          name: _tag,
+                        );
 
-                  final content = _buildExportContent(context);
-                  dev.log('Exported: $content', name: _tag);
+                        final content = _buildExportContent(context);
+                        dev.log('Exported: $content', name: _tag);
 
-                  _saveFile('$_folder/$file', content).then((f){
-                    _showMessage(context, f.path);
-                  });
-                } : null,
+                        _saveFile('$_folder/$file', content).then((f) {
+                          _showMessage(context, f.path);
+                        });
+                      }
+                    : null,
               ),
             ],
           ),
@@ -89,24 +90,24 @@ class _ExportTabState extends State<ExportTab> {
     );
   }
 
+  String _filename() => 'icebox-${DateTime.now().millisecondsSinceEpoch}.json';
+
   String _buildExportContent(final BuildContext context) {
     final freezersJson = jsonEncode(context.read<Freezers>().freezers);
     final freezerItemsJson = jsonEncode(context.read<FreezerItems>().items);
     return '{"freezers":$freezersJson, "freezerItems":$freezerItemsJson}';
   }
 
-  Future<File> _saveFile(final String path, final String content){
-    return File(path).writeAsString(content);
-  }
+  Future<File> _saveFile(final String path, final String content) =>
+      File(path).writeAsString(content);
 
-  void _showMessage(final BuildContext context, final String path){
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Your data has been exported to:\n$path.',
+  void _showMessage(final BuildContext context, final String path) =>
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Your data has been exported to:\n$path.',
+          ),
+          duration: const Duration(seconds: 6),
         ),
-        duration: const Duration(seconds: 6),
-      ),
-    );
-  }
+      );
 }
