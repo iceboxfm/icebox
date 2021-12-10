@@ -88,4 +88,16 @@ void main() {
     final obj = Freezer.fromJson(decoded);
     expect(obj, _freezer);
   });
+
+  test('Decoding from JSON', (){
+    const String json =  '{"id":3,"sdf":"Garage","shelves":["Upper","Lower"],"type":"chest"}';
+    final decoded = jsonDecode(json);
+
+    try {
+      final obj = Freezer.fromJson(decoded);
+      expect(obj, _freezer);
+    } catch( ex)  {
+      print('Bad: $ex');
+    }
+  });
 }

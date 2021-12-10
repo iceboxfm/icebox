@@ -120,7 +120,7 @@ class FreezerItems with ChangeNotifier {
     });
   }
 
-  void importing(final List<FreezerItem> items) async {
+  Future<void> importing(final List<FreezerItem> items) async {
     int created = 0;
     int updated = 0;
 
@@ -134,8 +134,10 @@ class FreezerItems with ChangeNotifier {
       }
     }
 
-    dev.log('Imported $created new items and $updated updated items.',
-        name: _tag);
+    dev.log(
+      'Imported $created new items and $updated updated items.',
+      name: _tag,
+    );
     notifyListeners();
   }
 

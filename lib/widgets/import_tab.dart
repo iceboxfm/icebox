@@ -93,8 +93,7 @@ class _ImportTabState extends State<ImportTab> {
                         final content = await _loadFile();
                         dev.log('Imported: $content', name: _tag);
 
-                        _import(context, content)
-                            .then((_) => _showMessage(context));
+                        _import(context, content);
                       }
                     : null,
               ),
@@ -112,17 +111,27 @@ class _ImportTabState extends State<ImportTab> {
 
   Future<void> _import(final BuildContext context, final String json) async {
     if (json.isNotEmpty) {
-      final map = jsonDecode(json);
+      try {
+        final map = jsonDecode(json);
 
-      await context.read<Freezers>().importing(
-          (map['freezers'] as List<dynamic>)
-              .map((f) => Freezer.fromJson(f))
-              .toList());
+        await context.read<Freezers>().importing(
+              (map['freezers'] as List<dynamic>)
+                  .map((f) => Freezer.fromJson(f))
+                  .toList(),
+            );
 
-      context.read<FreezerItems>().importing(
-          (map['freezerItems'] as List<dynamic>)
-              .map((fi) => FreezerItem.fromJson(fi))
-              .toList());
+        await context.read<FreezerItems>().importing(
+              (map['freezerItems'] as List<dynamic>)
+                  .map((fi) => FreezerItem.fromJson(fi))
+                  .toList(),
+            );
+
+        _showMessage(context);
+
+      } catch (ex) {
+        dev.log('Unable to import due to error: "$ex"', name: _tag);
+        _showError(context, ex.toString());
+      }
     }
   }
 
@@ -131,6 +140,19 @@ class _ImportTabState extends State<ImportTab> {
         const SnackBar(
           content: Text('The data has been imported.'),
           duration: Duration(seconds: 4),
+        ),
+      );
+
+  // FIXME: roll these into a util to share
+  void _showError(final BuildContext context, final String err) =>
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.orangeAccent,
+          content: Text(
+            'Import failed due to error: "$err".',
+            style: const TextStyle(color: Colors.black),
+          ),
+          duration: const Duration(seconds: 6),
         ),
       );
 }
