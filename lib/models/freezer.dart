@@ -86,4 +86,11 @@ class Freezer {
   @override
   String toString() =>
       'Freezer{id:$id, description:"$description", type:${type.name}, shelves:$shelves}';
+
+  Map toJson() => {
+    'id': id,
+    'description': description,
+    'shelves': shelves,
+    'type': type.name,
+  };
 }

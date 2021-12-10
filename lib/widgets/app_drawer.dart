@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icebox/screens/freezer_items_screen.dart';
 import 'package:icebox/screens/freezers_screen.dart';
+import 'package:icebox/screens/import_export_screen.dart';
 import 'package:icebox/widgets/about_app.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -46,18 +47,22 @@ class _AppDrawerState extends State<AppDrawer> {
             automaticallyImplyLeading: false,
           ),
           const Divider(),
-          ListTile(
-            leading: const Icon(Icons.assignment_outlined),
-            title: const Text('Freezer Items'),
-            onTap: () => Navigator.of(context)
-                  .pushReplacementNamed(FreezerItemsScreen.routeName),
+          const DrawerButton(
+            Icons.assignment_outlined,
+            'Freezer Items',
+            FreezerItemsScreen.routeName,
           ),
           const Divider(),
-          ListTile(
-            leading: const Icon(Icons.ac_unit_outlined),
-            title: const Text('Freezers'),
-            onTap: () => Navigator.of(context)
-                  .pushReplacementNamed(FreezersScreen.routeName),
+          const DrawerButton(
+            Icons.ac_unit_outlined,
+            'Freezers',
+            FreezersScreen.routeName,
+          ),
+          const Divider(),
+          const DrawerButton(
+            Icons.import_export_outlined,
+            'Export / Import',
+            ImportExportScreen.routeName,
           ),
           const Spacer(),
           const AboutApp(),
@@ -77,5 +82,22 @@ class _AppDrawerState extends State<AppDrawer> {
   Future<void> _initPackageInfo() async {
     final PackageInfo info = await PackageInfo.fromPlatform();
     setState(() => _packageInfo = info);
+  }
+}
+
+class DrawerButton extends StatelessWidget {
+  final IconData _icon;
+  final String _label;
+  final String _route;
+
+  const DrawerButton(this._icon, this._label, this._route);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(_icon),
+      title: Text(_label),
+      onTap: () => Navigator.of(context).pushReplacementNamed(_route),
+    );
   }
 }

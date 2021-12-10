@@ -8,6 +8,7 @@ import 'package:icebox/screens/freezer_item_screen.dart';
 import 'package:icebox/screens/freezer_items_screen.dart';
 import 'package:icebox/screens/freezer_screen.dart';
 import 'package:icebox/screens/freezers_screen.dart';
+import 'package:icebox/screens/import_export_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -95,6 +96,7 @@ class IceboxApp extends StatelessWidget {
           FreezersScreen.routeName: (ctx) => const FreezersScreen(),
           FreezerScreen.routeName: (ctx) => const FreezerScreen(),
           FreezerItemScreen.routeName: (ctx) => const FreezerItemScreen(),
+          ImportExportScreen.routeName: (ctx) => const ImportExportScreen(),
         },
         onUnknownRoute: (settings) => MaterialPageRoute(
           builder: (ctx) => const FreezerItemsScreen(),

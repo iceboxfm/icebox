@@ -105,4 +105,15 @@ class FreezerItem {
 
     return by.reversed ? workingItems.reversed.toList() : workingItems;
   }
+
+  Map toJson() => {
+        'id': id,
+        'description': description,
+        'quantity': quantity,
+        'frozenOn': frozenOn.millisecondsSinceEpoch,
+        'goodFor': goodFor,
+        'category': category.label,
+        'location': location,
+        'freezer': freezerId,
+      };
 }

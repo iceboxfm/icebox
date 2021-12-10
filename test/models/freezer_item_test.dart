@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/models/item_categories.dart';
 import 'package:icebox/models/sort_by.dart';
@@ -200,5 +202,13 @@ void main() {
 
     sorted = FreezerItem.sort(items, const SortBy(SortByField.category, true));
     expect(sorted.map((e) => e.id).toList(), [3, 2, 1]);
+  });
+
+  test('Encoding to JSON', () {
+    final encoded = jsonEncode(item);
+    expect(
+      encoded,
+      '{"id":1,"description":"Chicken parts","quantity":"a bunch","frozenOn":1634826082000,"goodFor":4,"category":"Meat - Poultry","location":"Middle shelf","freezer":10}',
+    );
   });
 }

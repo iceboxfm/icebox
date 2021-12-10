@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:icebox/models/freezer.dart';
 import 'package:test/test.dart';
 
@@ -69,6 +71,14 @@ void main() {
         shelves: ['Upper', 'Lower'],
         type: FreezerType.drawer,
       ),
+    );
+  });
+
+  test('Encoding to JSON', () {
+    final encoded = jsonEncode(_freezer);
+    expect(
+      encoded,
+      '{"id":3,"description":"Garage","shelves":["Upper","Lower"],"type":"chest"}',
     );
   });
 }
