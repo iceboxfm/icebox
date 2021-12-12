@@ -38,7 +38,7 @@ class FreezerList extends StatelessWidget {
     final Freezer freezer,
   ) {
     freezers.delete(freezer.id!).then((_) {
-      SnackBars.showMessage(
+      showMessageSnack(
         context,
         'Freezer "${freezer.description}" was deleted.',
       );

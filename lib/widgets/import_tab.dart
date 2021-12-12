@@ -127,10 +127,10 @@ class _ImportTabState extends State<ImportTab> {
                   .toList(),
             );
 
-        SnackBars.showMessage(context, 'The data has been imported.');
+        showMessageSnack(context, 'The data has been imported.');
       } catch (ex) {
         dev.log('Unable to import due to error: "$ex"', name: _tag);
-        SnackBars.showError(context, 'Import failed due to error: "$ex".');
+        showErrorSnack(context, 'Import failed due to error: "$ex".');
       }
     }
   }

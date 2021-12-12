@@ -79,7 +79,7 @@ class _ExportTabState extends State<ExportTab> {
                         dev.log('Exported: $content', name: _tag);
 
                         _saveFile('$_folder/$file', content).then((f) {
-                          SnackBars.showMessage(
+                          showMessageSnack(
                             context,
                             'Your data has been exported to:\n${f.path}.',
                             6,

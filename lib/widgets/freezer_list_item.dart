@@ -50,7 +50,7 @@ class FreezerListItem extends StatelessWidget {
   }
 
   Future<bool> _blockDelete(final BuildContext context) async {
-    SnackBars.showError(
+    showErrorSnack(
       context,
       'Freezer "${freezer.description}" cannot be deleted - it has items.',
       4,

@@ -57,7 +57,7 @@ class FreezerItemList extends StatelessWidget {
                     },
                     onDelete: (fi) {
                       freezerItems.delete(fi.id!).then((_) {
-                        SnackBars.showMessage(
+                        showMessageSnack(
                           context,
                           '"${fi.description}" was deleted.',
                         );
