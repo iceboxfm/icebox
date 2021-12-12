@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer' as dev;
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -9,6 +8,7 @@ import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/util/snack_bars.dart';
+import 'package:loggy/loggy.dart';
 import 'package:provider/provider.dart';
 
 class ImportTab extends StatefulWidget {
@@ -18,8 +18,7 @@ class ImportTab extends StatefulWidget {
   State<ImportTab> createState() => _ImportTabState();
 }
 
-class _ImportTabState extends State<ImportTab> {
-  static const String _tag = 'icebox.widgets.import_tab';
+class _ImportTabState extends State<ImportTab> with UiLoggy {
   String? _file;
 
   @override
@@ -87,16 +86,7 @@ class _ImportTabState extends State<ImportTab> {
             children: [
               ElevatedButton(
                 child: const Text('Import'),
-                onPressed: _file != null
-                    ? () async {
-                        dev.log('Importing file ($_file).', name: _tag);
-
-                        final content = await _loadFile();
-                        dev.log('Imported: $content', name: _tag);
-
-                        _import(context, content);
-                      }
-                    : null,
+                onPressed: _file != null ? () => _performImport(context) : null,
               ),
             ],
           ),
@@ -105,10 +95,17 @@ class _ImportTabState extends State<ImportTab> {
     );
   }
 
+  void _performImport(final BuildContext context) async {
+    loggy.info('Importing file ($_file).');
+
+    final content = await File(_file!).readAsString();
+    loggy.info('Imported: $content');
+
+    _import(context, content);
+  }
+
   String _name(final String str, final int lastX) =>
       str.substring(str.lastIndexOf('/') + 1);
-
-  Future<String> _loadFile() => File(_file!).readAsString();
 
   Future<void> _import(final BuildContext context, final String json) async {
     if (json.isNotEmpty) {
@@ -129,7 +126,7 @@ class _ImportTabState extends State<ImportTab> {
 
         showMessageSnack(context, 'The data has been imported.');
       } catch (ex) {
-        dev.log('Unable to import due to error: "$ex"', name: _tag);
+        loggy.error('Unable to import due to error: "$ex"', ex);
         showErrorSnack(context, 'Import failed due to error: "$ex".');
       }
     }

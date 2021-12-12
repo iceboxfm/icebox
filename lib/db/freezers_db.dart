@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'dart:developer' as dev;
 
 import 'package:icebox/db/database_accessor.dart';
 import 'package:icebox/models/freezer.dart';
+import 'package:loggy/loggy.dart';
 import 'package:sqflite/sqflite.dart';
 
+// FIXME: refactor this into raw functions
 class FreezersDb {
-  static const String _tag = 'icebox.db.freezers_db';
   static const String _table = 'freezers';
   static const String _tableDefinition = '''CREATE TABLE freezers (
       id INTEGER PRIMARY KEY,
@@ -17,7 +17,7 @@ class FreezersDb {
   ''';
 
   static Future<void> init(final Database db, final int version) async {
-    dev.log('Creating $_table (v$version)...', name: _tag);
+    logInfo('Creating $_table (v$version)...');
     return db.execute(_tableDefinition);
   }
 

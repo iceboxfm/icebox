@@ -23,6 +23,7 @@ dependencies:
   flutter_linkify: ^5.0.2
   url_launcher: ^6.0.12
   file_picker: ^4.2.7
+  flutter_loggy: ^2.0.1
 
 dev_dependencies:
   test: ^1.17.10

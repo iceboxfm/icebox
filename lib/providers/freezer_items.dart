@@ -1,13 +1,11 @@
-import 'dart:developer' as dev;
-
 import 'package:flutter/cupertino.dart';
 import 'package:icebox/db/freezer_items_db.dart';
 import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/models/item_categories.dart';
 import 'package:icebox/models/sort_by.dart';
+import 'package:loggy/loggy.dart';
 
-class FreezerItems with ChangeNotifier {
-  static const _tag = 'icebox.providers.freezer_items';
+class FreezerItems with ChangeNotifier, UiLoggy {
   static const _defaultSort = SortBy(SortByField.timeRemaining, false);
 
   List<FreezerItem> _freezerItems = [];
@@ -24,10 +22,7 @@ class FreezerItems with ChangeNotifier {
       _freezerItems.clear();
       _freezerItems.addAll(FreezerItem.sort(items, _sortBy));
 
-      dev.log(
-        'Loaded ${items.length} freezer items from database.',
-        name: _tag,
-      );
+      loggy.info('Loaded ${items.length} freezer items from database.');
 
       _loaded = true;
     }
@@ -98,7 +93,7 @@ class FreezerItems with ChangeNotifier {
     _freezerItems.add(item);
     _freezerItems = FreezerItem.sort(_freezerItems, _sortBy);
 
-    dev.log('Created: $item', name: _tag);
+    loggy.info('Created: $item');
     return item;
   }
 
@@ -108,14 +103,14 @@ class FreezerItems with ChangeNotifier {
     _freezerItems[existingIdx] = freezerItem;
     _freezerItems = FreezerItem.sort(_freezerItems, _sortBy);
 
-    dev.log('Updated: $freezerItem', name: _tag);
+    loggy.info('Updated: $freezerItem');
   }
 
   Future<void> delete(final int freezerItemId) async {
     FreezerItemsDb.delete(freezerItemId).then((_) {
       _freezerItems.removeWhere((f) => f.id == freezerItemId);
 
-      dev.log('Deleted: $freezerItemId', name: _tag);
+      loggy.info('Deleted: $freezerItemId');
       notifyListeners();
     });
   }
@@ -134,10 +129,7 @@ class FreezerItems with ChangeNotifier {
       }
     }
 
-    dev.log(
-      'Imported $created new items and $updated updated items.',
-      name: _tag,
-    );
+    loggy.info('Imported $created new items and $updated updated items.');
     notifyListeners();
   }
 

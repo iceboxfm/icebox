@@ -1,12 +1,9 @@
-import 'dart:developer' as dev;
-
 import 'package:flutter/widgets.dart';
 import 'package:icebox/db/freezers_db.dart';
 import 'package:icebox/models/freezer.dart';
+import 'package:loggy/loggy.dart';
 
-class Freezers with ChangeNotifier {
-  static const String _tag = 'icebox.providers.freezers';
-
+class Freezers with ChangeNotifier, UiLoggy {
   final List<Freezer> _freezers = [];
   bool _loaded = false;
 
@@ -17,7 +14,7 @@ class Freezers with ChangeNotifier {
       _freezers.clear();
       _freezers.addAll(items);
 
-      dev.log('Loaded ${items.length} freezers from database.', name: _tag);
+      loggy.info('Loaded ${items.length} freezers from database.');
       _loaded = true;
     }
   }
@@ -53,7 +50,7 @@ class Freezers with ChangeNotifier {
     final updated = await FreezersDb.create(freezer);
     _freezers.add(updated);
 
-    dev.log('Created: $updated', name: _tag);
+    loggy.info('Created: $updated');
     return updated;
   }
 
@@ -62,7 +59,7 @@ class Freezers with ChangeNotifier {
       final existingIdx = _freezers.indexWhere((f) => freezer.id == f.id);
       _freezers[existingIdx] = freezer;
 
-      dev.log('Updated: $freezer', name: _tag);
+      loggy.info('Updated: $freezer');
     });
   }
 
@@ -70,7 +67,7 @@ class Freezers with ChangeNotifier {
     FreezersDb.delete(freezerId).then((_) {
       _freezers.removeWhere((f) => f.id == freezerId);
 
-      dev.log('Deleted: $freezerId', name: _tag);
+      loggy.info('Deleted: $freezerId');
       notifyListeners();
     });
   }
@@ -89,7 +86,7 @@ class Freezers with ChangeNotifier {
       }
     }
 
-    dev.log('Imported $created new freezers and $updated updated freezers.', name: _tag);
+    loggy.info('Imported $created new freezers and $updated updated freezers.');
     notifyListeners();
   }
 

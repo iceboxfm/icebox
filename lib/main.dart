@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_loggy/flutter_loggy.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
@@ -9,6 +10,7 @@ import 'package:icebox/screens/freezer_items_screen.dart';
 import 'package:icebox/screens/freezer_screen.dart';
 import 'package:icebox/screens/freezers_screen.dart';
 import 'package:icebox/screens/import_export_screen.dart';
+import 'package:loggy/loggy.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -20,6 +22,16 @@ void main() {
   });
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  Loggy.initLoggy(
+    logPrinter: StreamPrinter(
+      const PrettyDeveloperPrinter(),
+    ),
+    logOptions: const LogOptions(
+      LogLevel.all,
+      stackTraceLevel: LogLevel.error,
+    ),
+  );
 
   // let's only allow portrait orientation
   SystemChrome.setPreferredOrientations([

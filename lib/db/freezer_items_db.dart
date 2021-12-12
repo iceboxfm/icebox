@@ -1,12 +1,11 @@
 import 'package:icebox/db/database_accessor.dart';
 import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/models/item_categories.dart';
-import 'dart:developer' as dev;
-
+import 'package:loggy/loggy.dart';
 import 'package:sqflite/sqflite.dart';
 
+// FIXME: refactor this into raw functions
 class FreezerItemsDb {
-  static const String _tag = 'icebox.db.freezer_items_db';
   static const String _table = 'freezer_items';
   static const String _tableDefinition = '''CREATE TABLE freezer_items (
       id INTEGER PRIMARY KEY,
@@ -22,7 +21,7 @@ class FreezerItemsDb {
   ''';
 
   static Future<void> init(final Database db, final int version) async {
-    dev.log('Creating $_table (v$version)...', name: _tag);
+    logInfo('Creating $_table (v$version)...');
     return db.execute(_tableDefinition);
   }
 
