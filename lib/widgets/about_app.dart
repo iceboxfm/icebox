@@ -17,7 +17,7 @@ class AboutApp extends StatelessWidget {
         width: 64,
       ),
       applicationName: 'Icebox Freezer Manager',
-      applicationVersion: '1.0.1',
+      applicationVersion: '1.0.2', // FIXME: get this automated?
       applicationLegalese: '© 2021',
       aboutBoxChildren: [
         const SectionHeaderText('More Information'),
