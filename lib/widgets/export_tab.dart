@@ -30,6 +30,7 @@ class _ExportTabState extends State<ExportTab> with UiLoggy {
             'Select the location where you want to export your freezer data. '
             'Your data will be stored in a text file (.json extension) inside '
             'the selected folder.',
+            style: TextStyle(fontSize: 18),
           ),
           const Divider(),
           Row(

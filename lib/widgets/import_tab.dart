@@ -32,6 +32,7 @@ class _ImportTabState extends State<ImportTab> with UiLoggy {
             'Select the file (.json) containing the freezer data you want '
             'to import. New records will be added while any matching entries '
             'already existing in the database, will be updated.',
+            style: TextStyle(fontSize: 18),
           ),
           const Divider(),
           Container(
@@ -44,6 +45,7 @@ class _ImportTabState extends State<ImportTab> with UiLoggy {
             child: const Text(
               'To avoid unexpected data loss, tt is recommended that you export '
               'your data, to use as a backup, before importing.',
+              style: TextStyle(fontSize: 18),
             ),
           ),
           const Divider(),

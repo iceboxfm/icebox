@@ -85,16 +85,25 @@ class NoFreezerItemsText extends StatelessWidget {
   }
 
   Widget _noItems() {
-    return const Text('No freezer items.');
+    return const Text(
+      'No freezer items.',
+      style: TextStyle(fontSize: 18),
+    );
   }
 
   Widget _noFreezers(final BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('You have no freezers.'),
+        const Text(
+          'You have no freezers.',
+          style: TextStyle(fontSize: 18),
+        ),
         TextButton(
-          child: const Text('Create one.'),
+          child: const Text(
+            'Create one.',
+            style: TextStyle(fontSize: 18),
+          ),
           onPressed: () => Navigator.of(context)
               .pushReplacementNamed(FreezersScreen.routeName),
         ),

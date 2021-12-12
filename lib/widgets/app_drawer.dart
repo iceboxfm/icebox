@@ -96,7 +96,10 @@ class DrawerButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(_icon),
-      title: Text(_label),
+      title: Text(
+        _label,
+        style: const TextStyle(fontSize: 18),
+      ),
       onTap: () => Navigator.of(context).pushReplacementNamed(_route),
     );
   }

@@ -54,9 +54,7 @@ class IceboxApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          textTheme: GoogleFonts.exo2TextTheme(
-            Theme.of(context).textTheme,
-          ),
+          textTheme: GoogleFonts.exo2TextTheme(Theme.of(context).textTheme),
           primarySwatch: const MaterialColor(
             4280402675,
             {

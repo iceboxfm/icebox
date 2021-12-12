@@ -11,13 +11,17 @@ class AboutApp extends StatelessWidget {
   Widget build(final BuildContext context) {
     return AboutListTile(
       icon: const Icon(Icons.info),
-      child: const Text('About Icebox'),
+      child: const Text(
+        'About Icebox',
+        style: TextStyle(fontSize: 18),
+      ),
       applicationIcon: const Image(
         image: AssetImage('assets/images/ice-cubes.png'),
         width: 64,
       ),
       applicationName: 'Icebox Freezer Manager',
-      applicationVersion: '1.0.2', // FIXME: get this automated?
+      applicationVersion: '1.0.2',
+      // FIXME: get this automated?
       applicationLegalese: '© 2021',
       aboutBoxChildren: [
         const SectionHeaderText('More Information'),

@@ -29,7 +29,12 @@ class FreezerList extends StatelessWidget {
               );
             },
           )
-        : const Center(child: Text('You have no freezers.'));
+        : const Center(
+            child: Text(
+              'You have no freezers.',
+              style: TextStyle(fontSize: 18),
+            ),
+          );
   }
 
   void _deleteFreezer(
