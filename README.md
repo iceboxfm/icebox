@@ -2,7 +2,16 @@
 
 An Android app allowing you to better manage the contents of your freezer.
 
-## Building
+## Key Configuration (Once)
+
+In order to build publishable app artifacts, the `android/key.properties` file should have the form as below:
+
+    storePassword=<password from previous step>
+    keyPassword=<password from previous step>
+    keyAlias=upload
+    storeFile=<location of the key store file, such as /Users/<user name>/upload-keystore.jks>
+
+> WARNING: This configuration file should NOT be checked into source control with populated information.
 
 ## Publishing (Local)
 
@@ -25,7 +34,7 @@ run:
 
     flutter build appbundle
 
-Then upload it to the desired product track in the store.
+Then upload the `./build/app/outputs/bundle/release/app-release.aab` file to the desired product track in the store.
 
 ## Attributions
 
