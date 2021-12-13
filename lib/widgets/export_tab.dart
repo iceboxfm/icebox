@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:icebox/providers/freezer_items.dart';
 import 'package:icebox/providers/freezers.dart';
 import 'package:icebox/util/snack_bars.dart';
+import 'package:intl/intl.dart';
 import 'package:loggy/loggy.dart';
 import 'package:provider/provider.dart';
 
@@ -78,7 +79,8 @@ class _ExportTabState extends State<ExportTab> with UiLoggy {
   }
 
   void _performExport(final BuildContext context) {
-    final file = 'icebox-${DateTime.now().millisecondsSinceEpoch}.json';
+    final dateStamp = DateFormat('yyyy-MM-dd-HHmm').format(DateTime.now());
+    final file = 'icebox-$dateStamp.json';
     loggy.info('Exporting file ($file) to folder ($_folder).');
 
     final content = _buildExportContent(context);
