@@ -1,6 +1,7 @@
 import 'package:icebox/db/freezer_items_db.dart';
 import 'package:icebox/db/freezers_db.dart';
 import 'package:loggy/loggy.dart';
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseAccessor with UiLoggy {
@@ -20,7 +21,7 @@ class DatabaseAccessor with UiLoggy {
     loggy.info('Initializing database...');
 
     return await openDatabase(
-      'icebox.db',
+      join(await getDatabasesPath(), 'icebox.db'),
       version: 1,
       onOpen: (db) {},
       onCreate: (Database db, int version) async {
