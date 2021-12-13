@@ -72,21 +72,18 @@ class Freezers with ChangeNotifier, UiLoggy {
     });
   }
 
-  Future<void> importing(final List<Freezer> items) async {
-    int created = 0;
-    int updated = 0;
+  Future<void> clear() async {
+    await FreezersDb.deleteAll();
+    _freezers.clear();
+    loggy.info('Cleared all.');
+  }
 
+  Future<void> importing(final List<Freezer> items) async {
     for (var f in items) {
-      if (_notExisting(f.id!)) {
         await _create(f);
-        created++;
-      } else {
-        await _update(f);
-        updated++;
-      }
     }
 
-    loggy.info('Imported $created new freezers and $updated updated freezers.');
+    loggy.info('Imported ${items.length} freezers.');
     notifyListeners();
   }
 

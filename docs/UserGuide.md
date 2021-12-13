@@ -219,19 +219,9 @@ the selected folder with a date-stamped name (e.g. icebox-2021-12-13-0845.json).
 From the drawer, select the "Export / Import" entry and tap the "Import" tab. From here you can select a JSON file
 on the device containing the exported data you wish to import.
 
-> This may change 
-
 ![Deleting a freezer](screenshots/importing.png)
 
 After selecting the file, the "Import" button will be active. Tap the button to import your data.
 
---- 
-
-Screenshots:
-
-Overview:
-* [ ] image of freezer edit screen (general)
-* [ ] image of freezer item edit screen (general)
-* [ ] image of freezer item list with items of varying age (general)
-
+> Warning: The existing data in the app will be cleared and overwritten by the imported data.
 

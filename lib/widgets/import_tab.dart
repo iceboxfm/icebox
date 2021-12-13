@@ -30,25 +30,27 @@ class _ImportTabState extends State<ImportTab> with UiLoggy {
         children: [
           const Text(
             'Select the file (.json) containing the freezer data you want '
-            'to import. New records will be added while any matching entries '
-            'already existing in the database, will be updated.',
+            'to import.',
             style: TextStyle(fontSize: 18),
           ),
-          const Divider(),
           Container(
+            margin: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.orangeAccent),
+              color: Colors.yellow.shade100,
+              border: Border.all(color: Colors.deepOrange),
               borderRadius: BorderRadius.circular(5.0),
             ),
-            padding: const EdgeInsets.all(4),
-            margin: const EdgeInsets.all(6),
             child: const Text(
-              'To avoid unexpected data loss, tt is recommended that you export '
-              'your data, to use as a backup, before importing.',
-              style: TextStyle(fontSize: 18),
+              'WARNING: All existing data will be cleared when the file is '
+              'imported.\nBe sure you have exported the existing data if you want'
+              ' to keep it.',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.deepOrange,
+              ),
             ),
           ),
-          const Divider(),
           Row(
             children: [
               Expanded(
@@ -98,12 +100,34 @@ class _ImportTabState extends State<ImportTab> with UiLoggy {
   }
 
   void _performImport(final BuildContext context) async {
-    loggy.info('Importing file ($_file).');
+    final bool confirmed = await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Are you sure?'),
+        content: const Text(
+          'By importing data the data file you will be clearing out all of your existing data',
+        ),
+        actions: [
+          TextButton(
+            child: const Text('No'),
+            onPressed: () => Navigator.of(context).pop(false),
+          ),
+          TextButton(
+            child: const Text('Yes'),
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+        ],
+      ),
+    );
 
-    final content = await File(_file!).readAsString();
-    loggy.info('Imported: $content');
+    if (confirmed) {
+      loggy.info('Importing file ($_file).');
 
-    _import(context, content);
+      final content = await File(_file!).readAsString();
+      loggy.info('Imported: $content');
+
+      _import(context, content);
+    }
   }
 
   String _name(final String str, final int lastX) =>
@@ -112,19 +136,26 @@ class _ImportTabState extends State<ImportTab> with UiLoggy {
   Future<void> _import(final BuildContext context, final String json) async {
     if (json.isNotEmpty) {
       try {
+        final freezers = context.read<Freezers>();
+        final freezerItems = context.read<FreezerItems>();
+
+        // clear the existing data
+        await freezerItems.clear();
+        await freezers.clear();
+
         final map = jsonDecode(json);
 
-        await context.read<Freezers>().importing(
-              (map['freezers'] as List<dynamic>)
-                  .map((f) => Freezer.fromJson(f))
-                  .toList(),
-            );
+        await freezers.importing(
+          (map['freezers'] as List<dynamic>)
+              .map((f) => Freezer.fromJson(f))
+              .toList(),
+        );
 
-        await context.read<FreezerItems>().importing(
-              (map['freezerItems'] as List<dynamic>)
-                  .map((fi) => FreezerItem.fromJson(fi))
-                  .toList(),
-            );
+        await freezerItems.importing(
+          (map['freezerItems'] as List<dynamic>)
+              .map((fi) => FreezerItem.fromJson(fi))
+              .toList(),
+        );
 
         showMessageSnack(context, 'The data has been imported.');
       } catch (ex) {

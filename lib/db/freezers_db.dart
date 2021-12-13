@@ -55,6 +55,10 @@ class FreezersDb {
     );
   }
 
+  static Future<void> deleteAll() async {
+    await (await DatabaseAccessor.db.database).delete(_table);
+  }
+
   static Map<String, dynamic> _toMap(final Freezer freezer) => {
         'id': freezer.id,
         'description': freezer.description,
