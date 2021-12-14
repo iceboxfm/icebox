@@ -1,7 +1,8 @@
-import 'package:icebox/db/freezer_items_db.dart';
-import 'package:icebox/db/freezers_db.dart';
+import 'package:icebox/db/freezer_items_db.dart' as freezer_items_db;
+import 'package:icebox/db/freezers_db.dart' as freezers_db;
 import 'package:loggy/loggy.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseAccessor with UiLoggy {
@@ -18,16 +19,19 @@ class DatabaseAccessor with UiLoggy {
   }
 
   Future<Database> _initDB() async {
-    loggy.info('Initializing database...');
+    final libDir = await getApplicationSupportDirectory();
+
+    var dbPath = join(libDir.path, 'icebox.db');
+    loggy.info('Initializing database ($dbPath)...');
 
     return await openDatabase(
-      join(await getDatabasesPath(), 'icebox.db'),
+      dbPath,
       version: 1,
       onOpen: (db) {},
       onCreate: (Database db, int version) async {
         loggy.info('Creating tables (v$version)...');
-        await FreezersDb.init(db, version);
-        await FreezerItemsDb.init(db, version);
+        await freezers_db.init(db, version);
+        await freezer_items_db.init(db, version);
       },
     );
   }

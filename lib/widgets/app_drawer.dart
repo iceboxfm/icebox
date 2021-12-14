@@ -65,7 +65,7 @@ class _AppDrawerState extends State<AppDrawer> {
             ImportExportScreen.routeName,
           ),
           const Spacer(),
-          const AboutApp(),
+          AboutApp(_packageInfo.version),
           const Divider(),
           Padding(
             padding: const EdgeInsets.all(8.0),

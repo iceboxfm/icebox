@@ -38,20 +38,8 @@ Then upload the `./build/app/outputs/bundle/release/app-release.aab` file to the
 
 ## Attributions
 
-Chest
-https://www.flaticon.com/free-icon/freezer_3939926
-https://www.flaticon.com/premium-icon/refrigerator_4665345
-
-Upright
-https://www.flaticon.com/premium-icon/freezer_938041
-https://www.flaticon.com/premium-icon/freezer_938092
-
-Drawer
-https://www.flaticon.com/premium-icon/freezer_3387449
-https://www.flaticon.com/premium-icon/freezer_2944682
-
-app
-https://www.flaticon.com/free-icon/ice-cubes_2996063
-
-Publishing 
-Need to setup build keys key.properties file - see https://docs.flutter.dev/deployment/android
+This application contains icons from the [flaticon](https://www.flaticon.com) repository, created by the following authors: 
+[justicon](https://www.flaticon.com/authors/justicon), [Freepik](https://www.freepik.com), 
+[iconixar](https://www.flaticon.com/authors/iconixar), [surang](https://www.flaticon.com/authors/surang), 
+[Pixelmeetup](https://www.flaticon.com/authors/pixelmeetup), [mynamepong](https://www.flaticon.com/authors/mynamepong), 
+[Backwoods](https://www.flaticon.com/authors/backwoods)

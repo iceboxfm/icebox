@@ -3,9 +3,9 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutApp extends StatelessWidget {
-  const AboutApp({Key? key}) : super(key: key);
+  final String version;
 
-  // FIXME: should I have a direct email link? - need to add query to manifest if so
+  const AboutApp(this.version);
 
   @override
   Widget build(final BuildContext context) {
@@ -20,8 +20,7 @@ class AboutApp extends StatelessWidget {
         width: 64,
       ),
       applicationName: 'Icebox Freezer Manager',
-      applicationVersion: '1.0.2',
-      // FIXME: get this automated?
+      applicationVersion: version,
       applicationLegalese: '© 2021',
       aboutBoxChildren: [
         const SectionHeaderText('More Information'),
@@ -55,12 +54,11 @@ class AboutApp extends StatelessWidget {
         const SectionHeaderText('Attribution'),
         Container(
           margin: const EdgeInsets.only(top: 6),
-          // FIXME: make sure all of these are correct and present
           child: Linkify(
             text:
                 'This application contains icons from the https://www.flaticon.com'
-                ' icon repository. The following creators icons were used: '
-                'justicon, iconixar, surang, pixelmeetup, mynamepong',
+                ' icon repository, created by the following authors: justicon, '
+                'Freepik, iconixar, surang, Pixelmeetup, mynamepong, Backwoods',
             onOpen: (link) => _open(link.url),
           ),
         ),

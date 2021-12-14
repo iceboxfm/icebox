@@ -3,7 +3,7 @@ description: An app for keeping track of what's in your freezers and when things
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.2+3
+version: 1.0.3+4
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

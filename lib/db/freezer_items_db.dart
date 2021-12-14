@@ -4,10 +4,8 @@ import 'package:icebox/models/item_categories.dart';
 import 'package:loggy/loggy.dart';
 import 'package:sqflite/sqflite.dart';
 
-// FIXME: refactor this into raw functions
-class FreezerItemsDb {
-  static const String _table = 'freezer_items';
-  static const String _tableDefinition = '''CREATE TABLE freezer_items (
+const String _table = 'freezer_items';
+const String _tableDefinition = '''CREATE TABLE freezer_items (
       id INTEGER PRIMARY KEY,
       description VARCHAR(50) NOT NULL,
       quantity VARCHAR(50) NOT NULL,
@@ -20,69 +18,68 @@ class FreezerItemsDb {
     )
   ''';
 
-  static Future<void> init(final Database db, final int version) async {
-    logInfo('Creating $_table (v$version)...');
-    return db.execute(_tableDefinition);
-  }
+Future<void> init(final Database db, final int version) async {
+  logInfo('Creating $_table (v$version)...');
+  return db.execute(_tableDefinition);
+}
 
-  /// Retrieve all freezer items (from all freezers)
-  static Future<List<FreezerItem>> retrieve() async {
-    final res = await (await DatabaseAccessor.db.database).query(_table);
-    return res.isNotEmpty ? res.map((r) => _fromMap(r)).toList() : [];
-  }
+/// Retrieve all freezer items (from all freezers)
+Future<List<FreezerItem>> retrieve() async {
+  final res = await (await DatabaseAccessor.db.database).query(_table);
+  return res.isNotEmpty ? res.map((r) => _fromMap(r)).toList() : [];
+}
 
-  static Future<FreezerItem> create(final FreezerItem freezerItem) async {
-    final recordId = await (await DatabaseAccessor.db.database).insert(
-      _table,
-      _toMap(freezerItem),
-    );
-    return freezerItem.copyWith(id: recordId);
-  }
+Future<FreezerItem> create(final FreezerItem freezerItem) async {
+  final recordId = await (await DatabaseAccessor.db.database).insert(
+    _table,
+    _toMap(freezerItem),
+  );
+  return freezerItem.copyWith(id: recordId);
+}
 
-  static Future<void> update(final FreezerItem freezerItem) async {
-    await (await DatabaseAccessor.db.database).update(
-      _table,
-      _toMap(freezerItem),
-      where: 'id = ?',
-      whereArgs: [freezerItem.id],
-    );
-  }
+Future<void> update(final FreezerItem freezerItem) async {
+  await (await DatabaseAccessor.db.database).update(
+    _table,
+    _toMap(freezerItem),
+    where: 'id = ?',
+    whereArgs: [freezerItem.id],
+  );
+}
 
-  static Future<void> delete(final int freezerItemId) async {
-    await (await DatabaseAccessor.db.database).delete(
-      _table,
-      where: 'id = ?',
-      whereArgs: [freezerItemId],
-    );
-  }
+Future<void> delete(final int freezerItemId) async {
+  await (await DatabaseAccessor.db.database).delete(
+    _table,
+    where: 'id = ?',
+    whereArgs: [freezerItemId],
+  );
+}
 
-  static Future<void> deleteAll() async {
-    await (await DatabaseAccessor.db.database).delete(_table);
-  }
+Future<void> deleteAll() async {
+  await (await DatabaseAccessor.db.database).delete(_table);
+}
 
-  static Map<String, dynamic> _toMap(final FreezerItem item) {
-    return {
-      'id': item.id,
-      'description': item.description,
-      'quantity': item.quantity,
-      'frozen_on': item.frozenOn.millisecondsSinceEpoch,
-      'good_for': item.goodFor,
-      'category': item.category.label,
-      'location': item.location,
-      'freezer_id': item.freezerId,
-    };
-  }
+Map<String, dynamic> _toMap(final FreezerItem item) {
+  return {
+    'id': item.id,
+    'description': item.description,
+    'quantity': item.quantity,
+    'frozen_on': item.frozenOn.millisecondsSinceEpoch,
+    'good_for': item.goodFor,
+    'category': item.category.label,
+    'location': item.location,
+    'freezer_id': item.freezerId,
+  };
+}
 
-  static FreezerItem _fromMap(final Map<String, dynamic> map) {
-    return FreezerItem(
-      id: map['id'],
-      description: map['description'],
-      quantity: map['quantity'],
-      frozenOn: DateTime.fromMillisecondsSinceEpoch(map['frozen_on']),
-      goodFor: map['good_for'],
-      category: ItemCategories.find(map['category'] as String),
-      location: map['location'],
-      freezerId: map['freezer_id'],
-    );
-  }
+FreezerItem _fromMap(final Map<String, dynamic> map) {
+  return FreezerItem(
+    id: map['id'],
+    description: map['description'],
+    quantity: map['quantity'],
+    frozenOn: DateTime.fromMillisecondsSinceEpoch(map['frozen_on']),
+    goodFor: map['good_for'],
+    category: ItemCategories.find(map['category'] as String),
+    location: map['location'],
+    freezerId: map['freezer_id'],
+  );
 }

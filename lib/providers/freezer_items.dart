@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:icebox/db/freezer_items_db.dart';
+import 'package:icebox/db/freezer_items_db.dart' as freezer_items_db;
 import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/models/item_categories.dart';
 import 'package:icebox/models/sort_by.dart';
@@ -17,7 +17,7 @@ class FreezerItems with ChangeNotifier, UiLoggy {
 
   Future<void> load() async {
     if (!_loaded) {
-      final items = await FreezerItemsDb.retrieve();
+      final items = await freezer_items_db.retrieve();
 
       _freezerItems.clear();
       _freezerItems.addAll(FreezerItem.sort(items, _sortBy));
@@ -89,7 +89,7 @@ class FreezerItems with ChangeNotifier, UiLoggy {
   }
 
   Future<FreezerItem> _create(final FreezerItem freezerItem) async {
-    final item = await FreezerItemsDb.create(freezerItem);
+    final item = await freezer_items_db.create(freezerItem);
     _freezerItems.add(item);
     _freezerItems = FreezerItem.sort(_freezerItems, _sortBy);
 
@@ -98,7 +98,7 @@ class FreezerItems with ChangeNotifier, UiLoggy {
   }
 
   Future<void> _update(final FreezerItem freezerItem) async {
-    await FreezerItemsDb.update(freezerItem);
+    await freezer_items_db.update(freezerItem);
     final existingIdx = _freezerItems.indexWhere((f) => freezerItem.id == f.id);
     _freezerItems[existingIdx] = freezerItem;
     _freezerItems = FreezerItem.sort(_freezerItems, _sortBy);
@@ -107,7 +107,7 @@ class FreezerItems with ChangeNotifier, UiLoggy {
   }
 
   Future<void> delete(final int freezerItemId) async {
-    FreezerItemsDb.delete(freezerItemId).then((_) {
+    freezer_items_db.delete(freezerItemId).then((_) {
       _freezerItems.removeWhere((f) => f.id == freezerItemId);
 
       loggy.info('Deleted: $freezerItemId');
@@ -116,7 +116,7 @@ class FreezerItems with ChangeNotifier, UiLoggy {
   }
 
   Future<void> clear() async {
-    await FreezerItemsDb.deleteAll();
+    await freezer_items_db.deleteAll();
     _freezerItems.clear();
     loggy.info('Cleared all.');
   }

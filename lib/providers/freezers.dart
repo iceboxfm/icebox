@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:icebox/db/freezers_db.dart';
+import 'package:icebox/db/freezers_db.dart' as freezers_db;
 import 'package:icebox/models/freezer.dart';
 import 'package:loggy/loggy.dart';
 
@@ -9,7 +9,7 @@ class Freezers with ChangeNotifier, UiLoggy {
 
   Future<void> load() async {
     if (!_loaded) {
-      final items = await FreezersDb.retrieve();
+      final items = await freezers_db.retrieve();
 
       _freezers.clear();
       _freezers.addAll(items);
@@ -47,7 +47,7 @@ class Freezers with ChangeNotifier, UiLoggy {
   }
 
   Future<Freezer> _create(final Freezer freezer) async {
-    final updated = await FreezersDb.create(freezer);
+    final updated = await freezers_db.create(freezer);
     _freezers.add(updated);
 
     loggy.info('Created: $updated');
@@ -55,7 +55,7 @@ class Freezers with ChangeNotifier, UiLoggy {
   }
 
   Future<void> _update(final Freezer freezer) {
-    return FreezersDb.update(freezer).then((_) {
+    return freezers_db.update(freezer).then((_) {
       final existingIdx = _freezers.indexWhere((f) => freezer.id == f.id);
       _freezers[existingIdx] = freezer;
 
@@ -64,7 +64,7 @@ class Freezers with ChangeNotifier, UiLoggy {
   }
 
   Future<void> delete(final int freezerId) async {
-    FreezersDb.delete(freezerId).then((_) {
+    freezers_db.delete(freezerId).then((_) {
       _freezers.removeWhere((f) => f.id == freezerId);
 
       loggy.info('Deleted: $freezerId');
@@ -73,14 +73,14 @@ class Freezers with ChangeNotifier, UiLoggy {
   }
 
   Future<void> clear() async {
-    await FreezersDb.deleteAll();
+    await freezers_db.deleteAll();
     _freezers.clear();
     loggy.info('Cleared all.');
   }
 
   Future<void> importing(final List<Freezer> items) async {
     for (var f in items) {
-        await _create(f);
+      await _create(f);
     }
 
     loggy.info('Imported ${items.length} freezers.');
