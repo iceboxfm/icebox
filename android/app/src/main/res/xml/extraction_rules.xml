@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup disableIfNoEncryptionCapabilities="false">
+        <include domain="file" path="icebox.db" />
+        <include domain="file" path="icebox.db-journal" />
+    </cloud-backup>
+</data-extraction-rules>
