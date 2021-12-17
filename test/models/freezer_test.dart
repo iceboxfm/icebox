@@ -82,22 +82,20 @@ void main() {
     );
   });
 
-  test('Decoding from JSON', (){
-    const String json =  '{"id":3,"description":"Garage","shelves":["Upper","Lower"],"type":"chest"}';
+  test('Decoding from JSON', () {
+    const String json =
+        '{"id":3,"description":"Garage","shelves":["Upper","Lower"],"type":"chest"}';
     final decoded = jsonDecode(json);
     final obj = Freezer.fromJson(decoded);
     expect(obj, _freezer);
   });
 
-  test('Decoding from JSON', (){
-    const String json =  '{"id":3,"sdf":"Garage","shelves":["Upper","Lower"],"type":"chest"}';
-    final decoded = jsonDecode(json);
-
-    try {
-      final obj = Freezer.fromJson(decoded);
-      expect(obj, _freezer);
-    } catch( ex)  {
-      print('Bad: $ex');
-    }
+  test('Decoding from JSON with bad field', () {
+    expect(
+      () => Freezer.fromJson(jsonDecode(
+        '{"id":3,"sdf":"Garage","shelves":["Upper","Lower"],"type":"chest"}',
+      )),
+      throwsA(isA<TypeError>()),
+    );
   });
 }
