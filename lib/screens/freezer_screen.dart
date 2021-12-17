@@ -43,7 +43,7 @@ class _FreezerScreenState extends State<FreezerScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final freezers = context.read<Freezers>();
 
     return Scaffold(

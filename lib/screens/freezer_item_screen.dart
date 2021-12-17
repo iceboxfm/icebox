@@ -1,5 +1,6 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:icebox/models/freezer.dart';
 import 'package:icebox/models/freezer_item.dart';
@@ -67,7 +68,8 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
         title: const Text('Freezer Item'),
       ),
       body: SingleChildScrollView(
-        child: Padding(
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 75),
           padding: const EdgeInsets.all(10),
           child: Form(
             key: _form,
