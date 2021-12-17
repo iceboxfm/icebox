@@ -49,7 +49,7 @@ android {
 
     defaultConfig {
         applicationId "com.stehno.icebox.icebox"
-        minSdkVersion 16
+        minSdkVersion 22
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

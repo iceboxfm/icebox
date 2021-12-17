@@ -43,3 +43,27 @@ This application contains icons from the [flaticon](https://www.flaticon.com) re
 [iconixar](https://www.flaticon.com/authors/iconixar), [surang](https://www.flaticon.com/authors/surang), 
 [Pixelmeetup](https://www.flaticon.com/authors/pixelmeetup), [mynamepong](https://www.flaticon.com/authors/mynamepong), 
 [Backwoods](https://www.flaticon.com/authors/backwoods)
+
+## Version Support
+
+The following version support matrix has been determined using real devices and emulators.
+
+| Version         | API | Supported | Notes        |
+|-----------------|-----|-----------|--------------|
+| 12              | 31  | Y         |              |
+| 11              | 30  | Y         |              |
+| 10              | 29  | .         |              |
+| 9 (pie)         | 28  | Y         |              |
+| 8 (oreo)        | 27  | .         |              |
+| 8 (oreo)        | 26  | .         |              |
+| 7 (nougat)      | 25  | .         |              |
+| 7 (nougat)      | 24  | .         |              |
+| 6 (marshmallow) | 23  | Y         |              |
+| 5 (lollipop)    | 22* | Y         |              |
+| 5 (lollipop)    | 21  | .         |              |
+| 4 (kitkat)      | 19  | N         | White screen |
+| 4 (jellybean)   | 18  | .         |              |
+| 4 (jellybean)   | 17  | .         |              |
+| 4 (jellybean)   | 16  | N         | White screen |
+
+**Minimum:** I am cutting the version support off to >= api v22

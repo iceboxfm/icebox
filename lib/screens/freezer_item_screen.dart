@@ -117,7 +117,7 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
                 ),
                 DropdownButtonFormField<String>(
                   decoration: _fieldLabel('Shelf', null),
-                  value: _freezerItem.location ?? '',
+                  value: _freezerItem.location,
                   items: _availableShelves(freezers),
                   onChanged: (_) => setState(() => _canSave = true),
                   onSaved: (value) => _freezerItem = _freezerItem.copyWith(
