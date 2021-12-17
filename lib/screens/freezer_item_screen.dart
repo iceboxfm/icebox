@@ -1,7 +1,6 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:icebox/models/freezer.dart';
 import 'package:icebox/models/freezer_item.dart';
 import 'package:icebox/models/item_categories.dart';
@@ -25,12 +24,10 @@ class FreezerItemScreen extends StatefulWidget {
 
 class _FreezerItemScreenState extends State<FreezerItemScreen> {
   final _form = GlobalKey<FormState>();
-  final TextEditingController _typeAheadController = TextEditingController();
   bool _isInit = true;
   bool _editing = false;
   bool _canSave = true;
   int? _freezerId;
-  String _itemLocation = '';
   FreezerItem _freezerItem = FreezerItem(
     description: '',
     quantity: '',
@@ -49,7 +46,6 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
         _canSave = false;
         _freezerItem = editing;
         _freezerId = editing.freezerId;
-        _itemLocation = editing.location ?? '';
       }
       _isInit = false;
     }
@@ -60,8 +56,6 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
   Widget build(final BuildContext context) {
     final freezerItems = context.read<FreezerItems>();
     final freezers = context.read<Freezers>();
-
-    _typeAheadController.value = TextEditingValue(text: _itemLocation);
 
     return Scaffold(
       appBar: AppBar(
@@ -112,7 +106,7 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
                 DropdownButtonFormField<int>(
                   decoration: _fieldLabel('Freezer', null),
                   value: _freezerItem.freezerId ?? _defaultFreezer(freezers),
-                  items: _availableFreezers(context),
+                  items: _availableFreezers(freezers),
                   onChanged: (value) => setState(() {
                     _freezerId = value;
                     _canSave = true;
@@ -121,29 +115,14 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
                     freezerId: value,
                   ),
                 ),
-                TypeAheadFormField(
-                  textFieldConfiguration: TextFieldConfiguration(
-                    controller: _typeAheadController,
-                    decoration: _fieldLabel('Location', 'Where is it?'),
+                DropdownButtonFormField<String>(
+                  decoration: _fieldLabel('Shelf', null),
+                  value: _freezerItem.location ?? '',
+                  items: _availableShelves(freezers),
+                  onChanged: (_) => setState(() => _canSave = true),
+                  onSaved: (value) => _freezerItem = _freezerItem.copyWith(
+                    location: value,
                   ),
-                  itemBuilder: (ctx, sugg) => ListTile(
-                    title: Text(sugg.toString()),
-                  ),
-                  suggestionsCallback: (pattern) {
-                    final pat = pattern.toLowerCase();
-                    return freezers
-                        .retrieve(_freezerId ?? _defaultFreezer(freezers)!)
-                        .shelves
-                        .where((s) => s.toLowerCase().contains(pat));
-                  },
-                  onSuggestionSelected: (sugg) {
-                    setState(() {
-                      _itemLocation = sugg.toString();
-                      _canSave = true;
-                    });
-                  },
-                  onSaved: (value) =>
-                      _freezerItem = _freezerItem.copyWith(location: value),
                 ),
                 DateTimeField(
                   decoration: _fieldLabel('Date Frozen', null),
@@ -203,10 +182,20 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
     return freezers.freezers[0].id;
   }
 
-  List<DropdownMenuItem<int>> _availableFreezers(final BuildContext context) {
-    return context
-        .read<Freezers>()
-        .freezers
+  List<DropdownMenuItem<String>> _availableShelves(final Freezers freezers) {
+    return freezers
+        .retrieve(_freezerId ?? _defaultFreezer(freezers)!)
+        .shelves
+        .map((s) => DropdownMenuItem<String>(
+              child: Text(s),
+              value: s,
+              enabled: true,
+            ))
+        .toList();
+  }
+
+  List<DropdownMenuItem<int>> _availableFreezers(final Freezers freezers) {
+    return freezers.freezers
         .map((f) => DropdownMenuItem<int>(
               child: Row(
                 children: [
