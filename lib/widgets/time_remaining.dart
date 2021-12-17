@@ -6,18 +6,18 @@ class TimeRemaining extends StatelessWidget {
   const TimeRemaining(this.timeRemaining);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Chip(
       padding: const EdgeInsets.all(1),
       backgroundColor: _selectBackgroundColor(timeRemaining),
       label: timeRemaining.inDays <= 0
           ? const Icon(Icons.error, color: Colors.white)
           : Text(
-        _daysRemainingText(timeRemaining),
-        style: TextStyle(
-          color: _selectTextColor(timeRemaining),
-        ),
-      ),
+              _daysRemainingText(timeRemaining),
+              style: TextStyle(
+                color: _selectTextColor(timeRemaining),
+              ),
+            ),
     );
   }
 
