@@ -103,6 +103,7 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
                     category: ItemCategories.find(value!),
                   ),
                 ),
+                const Divider(),
                 DropdownButtonFormField<int>(
                   decoration: _fieldLabel('Freezer', null),
                   value: _freezerItem.freezerId ?? _defaultFreezer(freezers),
@@ -120,10 +121,10 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
                   value: _freezerItem.location,
                   items: _availableShelves(freezers),
                   onChanged: (_) => setState(() => _canSave = true),
-                  onSaved: (value) => _freezerItem = _freezerItem.copyWith(
-                    location: value,
-                  ),
+                  onSaved: (value) =>
+                      _freezerItem = _freezerItem.withLocation(value),
                 ),
+                const Divider(),
                 DateTimeField(
                   decoration: _fieldLabel('Date Frozen', null),
                   format: DateFormat('MMM dd yyyy'),
@@ -182,18 +183,6 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
     return freezers.freezers[0].id;
   }
 
-  List<DropdownMenuItem<String>> _availableShelves(final Freezers freezers) {
-    return freezers
-        .retrieve(_freezerId ?? _defaultFreezer(freezers)!)
-        .shelves
-        .map((s) => DropdownMenuItem<String>(
-              child: Text(s),
-              value: s,
-              enabled: true,
-            ))
-        .toList();
-  }
-
   List<DropdownMenuItem<int>> _availableFreezers(final Freezers freezers) {
     return freezers.freezers
         .map((f) => DropdownMenuItem<int>(
@@ -209,6 +198,31 @@ class _FreezerItemScreenState extends State<FreezerItemScreen> {
             ))
         .toList();
   }
+
+  List<DropdownMenuItem<String>> _availableShelves(final Freezers freezers) {
+    return [
+      const DropdownMenuItem(
+        child: Text('Unspecified'),
+        value: null,
+        enabled: true,
+      ),
+      ...freezers
+          .retrieve(_freezerId ?? _defaultFreezer(freezers)!)
+          .shelves
+          .map((s) => DropdownMenuItem<String>(
+                child: Text(s),
+                value: s,
+                enabled: true,
+              ))
+          .toList(),
+    ];
+  }
+
+  /*
+                  items: ['Unspecified', ..._shelves!]
+
+                      .toList()
+   */
 
   List<DropdownMenuItem<String>> _categoryItems() {
     return ItemCategories.categories

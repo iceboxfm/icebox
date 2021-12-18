@@ -29,7 +29,6 @@ class _GoodForSelectorState extends State<GoodForSelector> {
     return DropdownButtonFormField<int>(
       decoration: InputDecoration(
         labelText: 'Good For',
-        labelStyle: const TextStyle(color: Colors.blue),
         suffix: IconButton(
           icon: const Icon(Icons.lightbulb_outline),
           onPressed: () {

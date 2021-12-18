@@ -74,6 +74,19 @@ class FreezerItem {
         freezerId,
       );
 
+  FreezerItem withLocation(final String? newLocation) {
+    return FreezerItem(
+      id: id,
+      description: description,
+      quantity: quantity,
+      frozenOn: frozenOn,
+      goodFor: goodFor,
+      category: category,
+      location: newLocation,
+      freezerId: freezerId,
+    );
+  }
+
   FreezerItem copyWith({
     int? id,
     String? description,
