@@ -13,6 +13,12 @@ In order to build publishable app artifacts, the `android/key.properties` file s
 
 > WARNING: This configuration file should NOT be checked into source control with populated information.
 
+## Building JSON Stubs
+
+To generate the JSON model stub files, run:
+
+    flutter packages pub run build_runner build
+
 ## Publishing (Local)
 
 To prepare a build for deployment on a local device (for testing). Run the following:

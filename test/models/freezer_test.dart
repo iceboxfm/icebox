@@ -75,9 +75,8 @@ void main() {
   });
 
   test('Encoding to JSON', () {
-    final encoded = jsonEncode(_freezer);
     expect(
-      encoded,
+      jsonEncode(_freezer),
       '{"id":3,"description":"Garage","shelves":["Upper","Lower"],"type":"chest"}',
     );
   });
@@ -86,6 +85,13 @@ void main() {
     const String json =
         '{"id":3,"description":"Garage","shelves":["Upper","Lower"],"type":"chest"}';
     final decoded = jsonDecode(json);
+    final obj = Freezer.fromJson(decoded);
+    expect(obj, _freezer);
+  });
+
+  test('Round-trip serdes', (){
+    final encoded = jsonEncode(_freezer);
+    final decoded = jsonDecode(encoded);
     final obj = Freezer.fromJson(decoded);
     expect(obj, _freezer);
   });

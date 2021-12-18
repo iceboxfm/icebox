@@ -1,5 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'freezer.g.dart';
 
 enum FreezerType {
   chest,
@@ -39,6 +42,7 @@ extension FreezerTypeExt on FreezerType {
   }
 }
 
+@JsonSerializable()
 class Freezer {
   final int? id;
   final String description;
@@ -52,12 +56,9 @@ class Freezer {
     required this.type,
   });
 
-  factory Freezer.fromJson(Map<String, dynamic> data) => Freezer(
-        id: data['id'],
-        description: data['description'],
-        shelves: (data['shelves'] as List<dynamic>).map((e) => e.toString()).toList(),
-        type: FreezerTypeExt.forName(data['type'])!,
-      );
+  factory Freezer.fromJson(Map<String, dynamic> json) => _$FreezerFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FreezerToJson(this);
 
   @override
   bool operator ==(Object other) {
@@ -93,11 +94,4 @@ class Freezer {
   @override
   String toString() =>
       'Freezer{id:$id, description:"$description", type:${type.name}, shelves:$shelves}';
-
-  Map toJson() => {
-        'id': id,
-        'description': description,
-        'shelves': shelves,
-        'type': type.name,
-      };
 }

@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 
 void main() {
   final itemFrozenOn = DateTime.parse('2021-10-21 09:21:22');
-  final item = FreezerItem(
+  final _freezerItem = FreezerItem(
     id: 1,
     description: 'Chicken parts',
     quantity: 'a bunch',
@@ -20,7 +20,7 @@ void main() {
 
   test('Testing string representation', () {
     expect(
-      item.toString(),
+      _freezerItem.toString(),
       'FreezerItem(id:1, description:"Chicken parts", location:"Middle shelf", category:"Meat - Poultry", quantity:"a bunch", frozenOn:2021-10-21 09:21:22.000, goodFor:4, freezerId:10)',
     );
   });
@@ -42,7 +42,7 @@ void main() {
 
   test('Testing copy-with', () {
     expect(
-        item.copyWith(id: 3),
+        _freezerItem.copyWith(id: 3),
         FreezerItem(
           id: 3,
           description: 'Chicken parts',
@@ -55,7 +55,7 @@ void main() {
         ));
 
     expect(
-        item.copyWith(description: 'different food'),
+        _freezerItem.copyWith(description: 'different food'),
         FreezerItem(
           id: 1,
           description: 'different food',
@@ -68,7 +68,7 @@ void main() {
         ));
 
     expect(
-        item.copyWith(quantity: 'a few'),
+        _freezerItem.copyWith(quantity: 'a few'),
         FreezerItem(
           id: 1,
           description: 'Chicken parts',
@@ -81,7 +81,7 @@ void main() {
         ));
 
     expect(
-        item.copyWith(location: 'Bottom shelf'),
+        _freezerItem.copyWith(location: 'Bottom shelf'),
         FreezerItem(
           id: 1,
           description: 'Chicken parts',
@@ -95,7 +95,7 @@ void main() {
 
     final now = DateTime.now();
     expect(
-        item.copyWith(frozenOn: now),
+        _freezerItem.copyWith(frozenOn: now),
         FreezerItem(
           id: 1,
           description: 'Chicken parts',
@@ -108,7 +108,7 @@ void main() {
         ));
 
     expect(
-        item.copyWith(goodFor: 10),
+        _freezerItem.copyWith(goodFor: 10),
         FreezerItem(
           id: 1,
           description: 'Chicken parts',
@@ -121,7 +121,7 @@ void main() {
         ));
 
     expect(
-        item.copyWith(category: ItemCategories.categories[0]),
+        _freezerItem.copyWith(category: ItemCategories.categories[0]),
         FreezerItem(
           id: 1,
           description: 'Chicken parts',
@@ -135,7 +135,7 @@ void main() {
 
     // test with two changes
     expect(
-      item.copyWith(quantity: '1 lb', location: 'Upper drawer'),
+      _freezerItem.copyWith(quantity: '1 lb', location: 'Upper drawer'),
       FreezerItem(
         id: 1,
         description: 'Chicken parts',
@@ -205,17 +205,24 @@ void main() {
   });
 
   test('Encoding to JSON', () {
-    final encoded = jsonEncode(item);
+    final encoded = jsonEncode(_freezerItem);
     expect(
       encoded,
-      '{"id":1,"description":"Chicken parts","quantity":"a bunch","frozenOn":1634826082000,"goodFor":4,"category":"Meat - Poultry","location":"Middle shelf","freezer":10}',
+      '{"id":1,"description":"Chicken parts","quantity":"a bunch","frozenOn":"2021-10-21T09:21:22.000","goodFor":4,"category":"Meat - Poultry","location":"Middle shelf","freezerId":10}',
     );
   });
 
   test('Decoding from JSON', (){
-    const String json =  '{"id":1,"description":"Chicken parts","quantity":"a bunch","frozenOn":1634826082000,"goodFor":4,"category":"Meat - Poultry","location":"Middle shelf","freezer":10}';
+    const String json =  '{"id":1,"description":"Chicken parts","quantity":"a bunch","frozenOn":"2021-10-21T09:21:22.000","goodFor":4,"category":"Meat - Poultry","location":"Middle shelf","freezerId":10}';
     final decoded = jsonDecode(json);
     final obj = FreezerItem.fromJson(decoded);
-    expect(obj, item);
+    expect(obj, _freezerItem);
+  });
+
+  test('Round-trip serdes', (){
+    final encoded = jsonEncode(_freezerItem);
+    final decoded = jsonDecode(encoded);
+    final obj = FreezerItem.fromJson(decoded);
+    expect(obj, _freezerItem);
   });
 }

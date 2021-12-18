@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+// TODO: pull this out into raw functions
 class ItemCategories {
   static const categories = [
     ItemCategory('No Category', 'assets/images/food-tray.png'),
@@ -27,6 +28,10 @@ class ItemCategories {
   }
 }
 
+String extractCategoryLabel(final ItemCategory category){
+  return category.label;
+}
+
 class ItemCategory implements Comparable<ItemCategory> {
   final String label;
   final String imagePath;
@@ -40,8 +45,8 @@ class ItemCategory implements Comparable<ItemCategory> {
   @override
   bool operator ==(Object other) =>
       other is ItemCategory &&
-          other.label == label &&
-          other.imagePath == imagePath;
+      other.label == label &&
+      other.imagePath == imagePath;
 
   @override
   int get hashCode => hashValues(label, imagePath);

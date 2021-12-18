@@ -1,13 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:icebox/models/item_categories.dart';
 import 'package:icebox/models/sort_by.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'freezer_item.g.dart';
+
+@JsonSerializable()
 class FreezerItem {
   final int? id;
   final String description;
   final String quantity;
   final DateTime frozenOn;
   final int goodFor;
+  @JsonKey(fromJson: ItemCategories.find, toJson: extractCategoryLabel)
   final ItemCategory category;
   final String? location;
   final int? freezerId;
@@ -23,18 +28,24 @@ class FreezerItem {
     this.freezerId,
   });
 
-  factory FreezerItem.fromJson(final Map<String, dynamic> data) {
-    return FreezerItem(
-      id: data['id'],
-      description: data['description'],
-      quantity: data['quantity'],
-      frozenOn: DateTime.fromMillisecondsSinceEpoch(data['frozenOn']),
-      goodFor: data['goodFor'],
-      category: ItemCategories.find(data['category']),
-      location: data['location'],
-      freezerId: data['freezer'],
-    );
-  }
+  factory FreezerItem.fromJson(Map<String, dynamic> json) =>
+      _$FreezerItemFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FreezerItemToJson(this);
+
+  // FIXME: remove
+  // factory FreezerItem.fromJson(final Map<String, dynamic> data) {
+  //   return FreezerItem(
+  //     id: data['id'],
+  //     description: data['description'],
+  //     quantity: data['quantity'],
+  //     frozenOn: DateTime.fromMillisecondsSinceEpoch(data['frozenOn']),
+  //     goodFor: data['goodFor'],
+  //     category: ItemCategories.find(data['category']),
+  //     location: data['location'],
+  //     freezerId: data['freezer'],
+  //   );
+  // }
 
   Duration get timeRemaining {
     final goodForDays = goodFor * 30;
@@ -132,14 +143,15 @@ class FreezerItem {
     return by.reversed ? workingItems.reversed.toList() : workingItems;
   }
 
-  Map toJson() => {
-        'id': id,
-        'description': description,
-        'quantity': quantity,
-        'frozenOn': frozenOn.millisecondsSinceEpoch,
-        'goodFor': goodFor,
-        'category': category.label,
-        'location': location,
-        'freezer': freezerId,
-      };
+// fIXME: remove
+// Map toJson() => {
+//       'id': id,
+//       'description': description,
+//       'quantity': quantity,
+//       'frozenOn': frozenOn.millisecondsSinceEpoch,
+//       'goodFor': goodFor,
+//       'category': category.label,
+//       'location': location,
+//       'freezer': freezerId,
+//     };
 }
