@@ -59,8 +59,7 @@ class IceboxApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          textTheme:
-          GoogleFonts.exo2TextTheme(Theme.of(context).textTheme),
+          textTheme: GoogleFonts.exo2TextTheme(Theme.of(context).textTheme),
           primarySwatch: const MaterialColor(
             4280402675,
             {
@@ -108,45 +107,16 @@ class IceboxApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: const FreezerItemsScreen(),
         routes: {
-          FreezerItemsScreen.routeName: (ctx) =>
-          const FreezerItemsScreen(),
+          FreezerItemsScreen.routeName: (ctx) => const FreezerItemsScreen(),
           FreezersScreen.routeName: (ctx) => const FreezersScreen(),
           FreezerScreen.routeName: (ctx) => const FreezerScreen(),
           FreezerItemScreen.routeName: (ctx) => const FreezerItemScreen(),
-          ImportExportScreen.routeName: (ctx) =>
-          const ImportExportScreen(),
+          ImportExportScreen.routeName: (ctx) => const ImportExportScreen(),
         },
         onUnknownRoute: (settings) => MaterialPageRoute(
           builder: (ctx) => const FreezerItemsScreen(),
         ),
       ),
     );
-  }
-}
-
-class Splash extends StatelessWidget {
-  const Splash({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffe1f5fe),
-      body: Center(
-        child: Image.asset('assets/images/splash.png'),
-      ),
-    );
-  }
-}
-
-class Init {
-  Init._();
-
-  static final instance = Init._();
-
-  Future initialize() async {
-    // This is where you can initialize the resources needed by your app while
-    // the splash screen is displayed.  Remove the following example because
-    // delaying the user experience is a bad design practice!
-    await Future.delayed(const Duration(seconds: 3));
   }
 }
